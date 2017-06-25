@@ -39,14 +39,14 @@ namespace artesanatoCapixaba
         {
             Artesao fArtesao = new Artesao();
             functions.configForm(fArtesao);
-            fArtesao.ShowDialog();
+            fArtesao.Show();
         }
 
         private void btnProduto_Click(object sender, EventArgs e)
         {
             Produto fProduto = new Produto();
             functions.configForm(fProduto);
-            fProduto.ShowDialog();
+            fProduto.Show();
         }
 
         private void btnEstoque_Click(object sender, EventArgs e)
@@ -60,7 +60,7 @@ namespace artesanatoCapixaba
         {
             Venda fVenda = new Venda();
             functions.configForm(fVenda);
-            fVenda.ShowDialog();
+            fVenda.Show();
             atualizarGridVendas(selectGridVendas);
         }
 

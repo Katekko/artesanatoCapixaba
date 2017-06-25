@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.boxFiltros = new System.Windows.Forms.GroupBox();
-            this.boxGridArtesao = new System.Windows.Forms.GroupBox();
+            this.lblDe = new System.Windows.Forms.Label();
+            this.lblTipoRelatorio = new System.Windows.Forms.Label();
+            this.cmbTipoRelatorio = new System.Windows.Forms.ComboBox();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.btnPesquisar = new System.Windows.Forms.Button();
+            this.txtCodArtesao = new System.Windows.Forms.TextBox();
+            this.lblCodArtesao = new System.Windows.Forms.Label();
             this.dtpDataAte = new System.Windows.Forms.DateTimePicker();
             this.lblAte = new System.Windows.Forms.Label();
             this.dtpDataDe = new System.Windows.Forms.DateTimePicker();
-            this.txtCodArtesao = new System.Windows.Forms.TextBox();
-            this.lblCodArtesao = new System.Windows.Forms.Label();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnPesquisar = new System.Windows.Forms.Button();
+            this.boxGridArtesao = new System.Windows.Forms.GroupBox();
             this.gridArtesao = new System.Windows.Forms.DataGridView();
-            this.cmbTipoRelatorio = new System.Windows.Forms.ComboBox();
-            this.lblTipoRelatorio = new System.Windows.Forms.Label();
-            this.lblDe = new System.Windows.Forms.Label();
             this.boxFiltros.SuspendLayout();
             this.boxGridArtesao.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridArtesao)).BeginInit();
@@ -66,16 +66,80 @@
             this.boxFiltros.TabStop = false;
             this.boxFiltros.Text = "Filtros";
             // 
-            // boxGridArtesao
+            // lblDe
             // 
-            this.boxGridArtesao.Controls.Add(this.gridArtesao);
-            this.boxGridArtesao.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.boxGridArtesao.Location = new System.Drawing.Point(13, 197);
-            this.boxGridArtesao.Name = "boxGridArtesao";
-            this.boxGridArtesao.Size = new System.Drawing.Size(369, 326);
-            this.boxGridArtesao.TabIndex = 0;
-            this.boxGridArtesao.TabStop = false;
-            this.boxGridArtesao.Text = "Info";
+            this.lblDe.AutoSize = true;
+            this.lblDe.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDe.Location = new System.Drawing.Point(9, 101);
+            this.lblDe.Name = "lblDe";
+            this.lblDe.Size = new System.Drawing.Size(40, 19);
+            this.lblDe.TabIndex = 21;
+            this.lblDe.Text = "De:";
+            // 
+            // lblTipoRelatorio
+            // 
+            this.lblTipoRelatorio.AutoSize = true;
+            this.lblTipoRelatorio.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTipoRelatorio.Location = new System.Drawing.Point(31, 63);
+            this.lblTipoRelatorio.Name = "lblTipoRelatorio";
+            this.lblTipoRelatorio.Size = new System.Drawing.Size(154, 19);
+            this.lblTipoRelatorio.TabIndex = 20;
+            this.lblTipoRelatorio.Text = "Tipo Relatório:";
+            // 
+            // cmbTipoRelatorio
+            // 
+            this.cmbTipoRelatorio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbTipoRelatorio.FormattingEnabled = true;
+            this.cmbTipoRelatorio.Items.AddRange(new object[] {
+            "Total para Receber",
+            "Itens vendidos"});
+            this.cmbTipoRelatorio.Location = new System.Drawing.Point(191, 60);
+            this.cmbTipoRelatorio.Name = "cmbTipoRelatorio";
+            this.cmbTipoRelatorio.Size = new System.Drawing.Size(169, 27);
+            this.cmbTipoRelatorio.TabIndex = 19;
+            // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.Lime;
+            this.btnExport.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnExport.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Location = new System.Drawing.Point(193, 137);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(167, 31);
+            this.btnExport.TabIndex = 5;
+            this.btnExport.Text = "E X P O R T";
+            this.btnExport.UseVisualStyleBackColor = false;
+            // 
+            // btnPesquisar
+            // 
+            this.btnPesquisar.BackColor = System.Drawing.Color.DeepSkyBlue;
+            this.btnPesquisar.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPesquisar.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPesquisar.Location = new System.Drawing.Point(10, 136);
+            this.btnPesquisar.Name = "btnPesquisar";
+            this.btnPesquisar.Size = new System.Drawing.Size(169, 32);
+            this.btnPesquisar.TabIndex = 4;
+            this.btnPesquisar.Text = "P E S Q U I S A R";
+            this.btnPesquisar.UseVisualStyleBackColor = false;
+            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
+            // 
+            // txtCodArtesao
+            // 
+            this.txtCodArtesao.Location = new System.Drawing.Point(191, 26);
+            this.txtCodArtesao.Name = "txtCodArtesao";
+            this.txtCodArtesao.Size = new System.Drawing.Size(169, 26);
+            this.txtCodArtesao.TabIndex = 0;
+            this.txtCodArtesao.Leave += new System.EventHandler(this.txtCodArtesao_Leave);
+            // 
+            // lblCodArtesao
+            // 
+            this.lblCodArtesao.AutoSize = true;
+            this.lblCodArtesao.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCodArtesao.Location = new System.Drawing.Point(23, 29);
+            this.lblCodArtesao.Name = "lblCodArtesao";
+            this.lblCodArtesao.Size = new System.Drawing.Size(162, 19);
+            this.lblCodArtesao.TabIndex = 18;
+            this.lblCodArtesao.Text = "Codigo Artesão:";
             // 
             // dtpDataAte
             // 
@@ -106,47 +170,16 @@
             this.dtpDataDe.Size = new System.Drawing.Size(128, 26);
             this.dtpDataDe.TabIndex = 2;
             // 
-            // txtCodArtesao
+            // boxGridArtesao
             // 
-            this.txtCodArtesao.Location = new System.Drawing.Point(191, 26);
-            this.txtCodArtesao.Name = "txtCodArtesao";
-            this.txtCodArtesao.Size = new System.Drawing.Size(169, 26);
-            this.txtCodArtesao.TabIndex = 0;
-            // 
-            // lblCodArtesao
-            // 
-            this.lblCodArtesao.AutoSize = true;
-            this.lblCodArtesao.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCodArtesao.Location = new System.Drawing.Point(23, 29);
-            this.lblCodArtesao.Name = "lblCodArtesao";
-            this.lblCodArtesao.Size = new System.Drawing.Size(162, 19);
-            this.lblCodArtesao.TabIndex = 18;
-            this.lblCodArtesao.Text = "Codigo Artesão:";
-            // 
-            // btnExport
-            // 
-            this.btnExport.BackColor = System.Drawing.Color.Lime;
-            this.btnExport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExport.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnExport.Location = new System.Drawing.Point(193, 137);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(167, 31);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "E X P O R T";
-            this.btnExport.UseVisualStyleBackColor = false;
-            // 
-            // btnPesquisar
-            // 
-            this.btnPesquisar.BackColor = System.Drawing.Color.DeepSkyBlue;
-            this.btnPesquisar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnPesquisar.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPesquisar.Location = new System.Drawing.Point(10, 136);
-            this.btnPesquisar.Name = "btnPesquisar";
-            this.btnPesquisar.Size = new System.Drawing.Size(169, 32);
-            this.btnPesquisar.TabIndex = 4;
-            this.btnPesquisar.Text = "P E S Q U I S A R";
-            this.btnPesquisar.UseVisualStyleBackColor = false;
-            this.btnPesquisar.Click += new System.EventHandler(this.btnPesquisar_Click);
+            this.boxGridArtesao.Controls.Add(this.gridArtesao);
+            this.boxGridArtesao.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.boxGridArtesao.Location = new System.Drawing.Point(13, 197);
+            this.boxGridArtesao.Name = "boxGridArtesao";
+            this.boxGridArtesao.Size = new System.Drawing.Size(369, 326);
+            this.boxGridArtesao.TabIndex = 0;
+            this.boxGridArtesao.TabStop = false;
+            this.boxGridArtesao.Text = "Info";
             // 
             // gridArtesao
             // 
@@ -157,38 +190,6 @@
             this.gridArtesao.ReadOnly = true;
             this.gridArtesao.Size = new System.Drawing.Size(350, 285);
             this.gridArtesao.TabIndex = 6;
-            // 
-            // cmbTipoRelatorio
-            // 
-            this.cmbTipoRelatorio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTipoRelatorio.FormattingEnabled = true;
-            this.cmbTipoRelatorio.Items.AddRange(new object[] {
-            "Total para Receber",
-            "Itens vendidos"});
-            this.cmbTipoRelatorio.Location = new System.Drawing.Point(191, 60);
-            this.cmbTipoRelatorio.Name = "cmbTipoRelatorio";
-            this.cmbTipoRelatorio.Size = new System.Drawing.Size(169, 27);
-            this.cmbTipoRelatorio.TabIndex = 19;
-            // 
-            // lblTipoRelatorio
-            // 
-            this.lblTipoRelatorio.AutoSize = true;
-            this.lblTipoRelatorio.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTipoRelatorio.Location = new System.Drawing.Point(31, 63);
-            this.lblTipoRelatorio.Name = "lblTipoRelatorio";
-            this.lblTipoRelatorio.Size = new System.Drawing.Size(154, 19);
-            this.lblTipoRelatorio.TabIndex = 20;
-            this.lblTipoRelatorio.Text = "Tipo Relatório:";
-            // 
-            // lblDe
-            // 
-            this.lblDe.AutoSize = true;
-            this.lblDe.Font = new System.Drawing.Font("Rockwell Extra Bold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDe.Location = new System.Drawing.Point(9, 101);
-            this.lblDe.Name = "lblDe";
-            this.lblDe.Size = new System.Drawing.Size(40, 19);
-            this.lblDe.TabIndex = 21;
-            this.lblDe.Text = "De:";
             // 
             // relatorioArtesao
             // 

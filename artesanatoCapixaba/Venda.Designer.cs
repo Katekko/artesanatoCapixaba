@@ -43,6 +43,11 @@
             this.Quantidade_Produto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValorTotal_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.boxPagamento = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblSegundaOpcao = new System.Windows.Forms.Label();
+            this.txtSegundaOpcao = new System.Windows.Forms.TextBox();
             this.lblTipoPagamento = new System.Windows.Forms.Label();
             this.cmbTipoPagamento = new System.Windows.Forms.ComboBox();
             this.lblValorRecebido = new System.Windows.Forms.Label();
@@ -54,11 +59,6 @@
             this.txtCodProd = new System.Windows.Forms.TextBox();
             this.lblQuant = new System.Windows.Forms.Label();
             this.txtQuantidade = new System.Windows.Forms.TextBox();
-            this.lblSegundaOpcao = new System.Windows.Forms.Label();
-            this.txtSegundaOpcao = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.boxContent.SuspendLayout();
             this.boxEfetuarVenda.SuspendLayout();
             this.boxGridVendas.SuspendLayout();
@@ -77,7 +77,7 @@
             this.boxContent.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.boxContent.Location = new System.Drawing.Point(12, -1);
             this.boxContent.Name = "boxContent";
-            this.boxContent.Size = new System.Drawing.Size(793, 371);
+            this.boxContent.Size = new System.Drawing.Size(793, 382);
             this.boxContent.TabIndex = 3;
             this.boxContent.TabStop = false;
             // 
@@ -218,6 +218,55 @@
             this.boxPagamento.TabStop = false;
             this.boxPagamento.Text = "Pagamento";
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(166, 103);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(14, 19);
+            this.label3.TabIndex = 17;
+            this.label3.Text = ":";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(166, 71);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(14, 19);
+            this.label2.TabIndex = 16;
+            this.label2.Text = ":";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(166, 36);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(14, 19);
+            this.label1.TabIndex = 15;
+            this.label1.Text = ":";
+            // 
+            // lblSegundaOpcao
+            // 
+            this.lblSegundaOpcao.AutoSize = true;
+            this.lblSegundaOpcao.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSegundaOpcao.Location = new System.Drawing.Point(12, 103);
+            this.lblSegundaOpcao.Name = "lblSegundaOpcao";
+            this.lblSegundaOpcao.Size = new System.Drawing.Size(127, 19);
+            this.lblSegundaOpcao.TabIndex = 14;
+            this.lblSegundaOpcao.Text = "Segunda Opção";
+            // 
+            // txtSegundaOpcao
+            // 
+            this.txtSegundaOpcao.Enabled = false;
+            this.txtSegundaOpcao.Location = new System.Drawing.Point(186, 100);
+            this.txtSegundaOpcao.Name = "txtSegundaOpcao";
+            this.txtSegundaOpcao.Size = new System.Drawing.Size(172, 26);
+            this.txtSegundaOpcao.TabIndex = 13;
+            this.txtSegundaOpcao.Leave += new System.EventHandler(this.txtSegundaOpcao_Leave);
+            // 
             // lblTipoPagamento
             // 
             this.lblTipoPagamento.AutoSize = true;
@@ -275,7 +324,6 @@
             // 
             this.btnRetirarItem.BackColor = System.Drawing.Color.Crimson;
             this.btnRetirarItem.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRetirarItem.Enabled = false;
             this.btnRetirarItem.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnRetirarItem.Font = new System.Drawing.Font("Rockwell", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRetirarItem.Location = new System.Drawing.Point(364, 19);
@@ -291,7 +339,6 @@
             // 
             this.btnAdicionarItem.BackColor = System.Drawing.Color.LawnGreen;
             this.btnAdicionarItem.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAdicionarItem.Enabled = false;
             this.btnAdicionarItem.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.btnAdicionarItem.Location = new System.Drawing.Point(328, 19);
             this.btnAdicionarItem.Name = "btnAdicionarItem";
@@ -339,61 +386,12 @@
             this.txtQuantidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantidade_KeyPress);
             this.txtQuantidade.Leave += new System.EventHandler(this.txtQuantidade_Leave);
             // 
-            // lblSegundaOpcao
-            // 
-            this.lblSegundaOpcao.AutoSize = true;
-            this.lblSegundaOpcao.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSegundaOpcao.Location = new System.Drawing.Point(12, 103);
-            this.lblSegundaOpcao.Name = "lblSegundaOpcao";
-            this.lblSegundaOpcao.Size = new System.Drawing.Size(127, 19);
-            this.lblSegundaOpcao.TabIndex = 14;
-            this.lblSegundaOpcao.Text = "Segunda Opção";
-            // 
-            // txtSegundaOpcao
-            // 
-            this.txtSegundaOpcao.Enabled = false;
-            this.txtSegundaOpcao.Location = new System.Drawing.Point(186, 100);
-            this.txtSegundaOpcao.Name = "txtSegundaOpcao";
-            this.txtSegundaOpcao.Size = new System.Drawing.Size(172, 26);
-            this.txtSegundaOpcao.TabIndex = 13;
-            this.txtSegundaOpcao.Leave += new System.EventHandler(this.txtSegundaOpcao_Leave);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(166, 36);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(14, 19);
-            this.label1.TabIndex = 15;
-            this.label1.Text = ":";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(166, 71);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 19);
-            this.label2.TabIndex = 16;
-            this.label2.Text = ":";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(166, 103);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(14, 19);
-            this.label3.TabIndex = 17;
-            this.label3.Text = ":";
-            // 
             // Venda
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(811, 382);
+            this.ClientSize = new System.Drawing.Size(811, 386);
             this.Controls.Add(this.boxContent);
             this.Name = "Venda";
             this.Text = "Venda";

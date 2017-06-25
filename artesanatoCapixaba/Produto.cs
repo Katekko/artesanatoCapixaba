@@ -7,13 +7,26 @@ namespace artesanatoCapixaba
 {
     public partial class Produto : Form
     {
+
+        private string selectGridProduto =
+            " SELECT " +
+            " tbl_produto.Codigo_Artesao AS 'CodigoArtesao', tbl_artesao.Nome_Artesao AS 'NomeArtesao', " +
+            " tbl_produto.Codigo_Produto AS 'CodigoProduto', tbl_produto.TipoProduto_Produto AS 'TipoProduto', " +
+            " tbl_produto.Preco_Produto AS 'PrecoProduto'" +
+            " FROM tbl_produto " +
+            " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao " +
+            " ORDER BY Codigo_Artesao, tbl_produto.Codigo_Produto;";
+
+        //, tbl_estoque.Quantidade_Estoque As 'QuantidadeEstoque' " +
+        //" INNER JOIN tbl_estoque ON tbl_estoque.Codigo_Produto = tbl_produto.Codigo_Produto " +
+
         public Produto()
         {
             InitializeComponent();
 
             fillCmbTipoProduto();
 
-            atualizarGridProduto($"SELECT tbl_produto.Codigo_Artesao AS 'Codigo', tbl_artesao.Nome_Artesao AS 'Nome', tbl_produto.Codigo_Produto, tbl_produto.TipoProduto_Produto, tbl_produto.Preco_Produto FROM tbl_produto INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao ORDER BY Codigo_Artesao, Codigo_Produto;");
+            atualizarGridProduto(selectGridProduto);
         }
 
 
@@ -27,7 +40,7 @@ namespace artesanatoCapixaba
 
         private void btnPesquisar_Click(object sender, EventArgs e)
         {
-            atualizarGridProduto($"SELECT tbl_produto.Codigo_Artesao AS 'Codigo', tbl_artesao.Nome_Artesao AS 'Nome', tbl_produto.Codigo_Produto, tbl_produto.TipoProduto_Produto, tbl_produto.Preco_Produto FROM tbl_produto INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao {makeWhere()}");
+            atualizarGridProduto(selectGridProduto + makeWhere());
         }
 
         private void btnDeletar_Click(object sender, EventArgs e)
