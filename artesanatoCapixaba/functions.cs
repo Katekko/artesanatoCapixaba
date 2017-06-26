@@ -354,5 +354,11 @@ namespace artesanatoCapixaba
             
             return idArtesao;
         }
+
+        public static void clearGrid(DataGridView grid)
+        {
+            grid.DataSource = null;
+            grid.Rows.Clear();
+        }
     }
 }

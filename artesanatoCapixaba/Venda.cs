@@ -252,7 +252,7 @@ namespace artesanatoCapixaba
                     double valorArtesao = valorItem * 0.7;
                     double valorLoja = valorItem * 0.3;
 
-                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda VALUES({codVenda}, '{codProduto}', {quantItem}, '{valorItem}', {valorArtesao}, {valorLoja})");
+                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda VALUES({codVenda}, '{codProduto}', {quantItem}, '{valorItem}', '{valorArtesao}', '{valorLoja}')");
                 }
             }
 

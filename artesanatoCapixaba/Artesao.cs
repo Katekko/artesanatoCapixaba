@@ -73,7 +73,7 @@ namespace artesanatoCapixaba
         {
             relatorioArtesao fRelatorioArtesao = new relatorioArtesao();
             functions.configForm(fRelatorioArtesao);
-            fRelatorioArtesao.ShowDialog();
+            fRelatorioArtesao.Show();
         }
 
         /****************************************************************/
