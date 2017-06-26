@@ -14,8 +14,7 @@ namespace artesanatoCapixaba
             " tbl_produto.Codigo_Produto AS 'CodigoProduto', tbl_produto.TipoProduto_Produto AS 'TipoProduto', " +
             " tbl_produto.Preco_Produto AS 'PrecoProduto'" +
             " FROM tbl_produto " +
-            " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao " +
-            " ORDER BY Codigo_Artesao, tbl_produto.Codigo_Produto;";
+            " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao ";
 
         //, tbl_estoque.Quantidade_Estoque As 'QuantidadeEstoque' " +
         //" INNER JOIN tbl_estoque ON tbl_estoque.Codigo_Produto = tbl_produto.Codigo_Produto " +
@@ -131,7 +130,7 @@ namespace artesanatoCapixaba
                 auxV += " AND TipoProduto_Produto = '" + cmbTipoProduto.GetItemText(cmbTipoProduto.SelectedItem) + "'";
             }
 
-            return auxV;
+            return auxV + " ORDER BY Codigo_Artesao, tbl_produto.Codigo_Produto";
         }
 
         public void configGridProduto()
