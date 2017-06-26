@@ -55,6 +55,7 @@ namespace artesanatoCapixaba
                 txtCodArtesao.Text = "";
                 txtNomeArtesao.Text = "";
                 txtCodArtesao.BackColor = Color.White;
+
             }
             else
             {
@@ -74,6 +75,8 @@ namespace artesanatoCapixaba
                 con.Close();
             }
 
+            lblTotalItensResult.Text = "";
+            lblTotalValorResult.Text = "";
             functions.clearGrid(gridArtesao);
         }
 
@@ -124,6 +127,8 @@ namespace artesanatoCapixaba
             var leitor = query.ExecuteReader();
 
             functions.clearGrid(gridArtesao);
+            contQuantidade = 0;
+            contValor = 0;
 
             if (!leitor.HasRows)
             {
