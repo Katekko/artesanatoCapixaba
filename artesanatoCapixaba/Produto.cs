@@ -117,7 +117,7 @@ namespace artesanatoCapixaba
 
             if (txtCodArt.Text != "")
             {
-                auxV += " AND Codigo_Artesao LIKE " + txtCodArt.Text;
+                auxV += " AND Codigo_Artesao = " + txtCodArt.Text;
             }
 
             if (txtCodProduto.Text != "")
