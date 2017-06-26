@@ -180,6 +180,7 @@
             this.ValorTotal_Item});
             this.gridItemVenda.Location = new System.Drawing.Point(6, 18);
             this.gridItemVenda.Name = "gridItemVenda";
+            this.gridItemVenda.ReadOnly = true;
             this.gridItemVenda.Size = new System.Drawing.Size(343, 211);
             this.gridItemVenda.TabIndex = 9;
             // 
@@ -187,18 +188,21 @@
             // 
             this.Codigo_Produto.HeaderText = "Produto";
             this.Codigo_Produto.Name = "Codigo_Produto";
+            this.Codigo_Produto.ReadOnly = true;
             this.Codigo_Produto.Width = 90;
             // 
             // Quantidade_Produto
             // 
             this.Quantidade_Produto.HeaderText = "Quantidade";
             this.Quantidade_Produto.Name = "Quantidade_Produto";
+            this.Quantidade_Produto.ReadOnly = true;
             this.Quantidade_Produto.Width = 110;
             // 
             // ValorTotal_Item
             // 
             this.ValorTotal_Item.HeaderText = "Valor";
             this.ValorTotal_Item.Name = "ValorTotal_Item";
+            this.ValorTotal_Item.ReadOnly = true;
             // 
             // boxPagamento
             // 
