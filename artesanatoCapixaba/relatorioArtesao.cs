@@ -140,7 +140,7 @@ namespace artesanatoCapixaba
             {
                 while (leitor.Read())
                 {
-                    gridArtesao.Rows.Add(leitor["Codigo_Produto"], leitor["Quantidade_Produto"], Double.Parse(leitor["ValorTotal_Item"].ToString()), Double.Parse(leitor["ValorArtesao_Item"].ToString()));
+                    gridArtesao.Rows.Add(leitor["Codigo_Produto"], leitor["Quantidade_Produto"], Double.Parse(leitor["ValorTotal_Item"].ToString()), Double.Parse(leitor["ValorArtesao_Item"].ToString().Replace('.', ',')));
                     contQuantidade += Int32.Parse(leitor["Quantidade_Produto"].ToString());
                     contValor += Double.Parse(leitor["ValorArtesao_Item"].ToString());
                 }

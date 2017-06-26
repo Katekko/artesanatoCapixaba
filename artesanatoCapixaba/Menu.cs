@@ -2,6 +2,8 @@
 using System.Windows.Forms;
 using System.Data;
 using ClosedXML.Excel;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace artesanatoCapixaba
 {
@@ -28,6 +30,29 @@ namespace artesanatoCapixaba
 
             atualizarGridVendas(selectGridVendas);
 
+            List<double> listaArtesao = new List<double>();
+            List<double> listaLoja = new List<double>();
+
+            MySqlConnection con = functions.connectionSQL();
+            MySqlCommand query = new MySqlCommand("SELECT ValorTotal_Item FROM tbl_itensvenda",con);
+            var leitor = query.ExecuteReader();
+
+            int i = 0;
+
+            for (i = 0; leitor.Read(); i++)
+            { 
+                listaArtesao.Add(Double.Parse(leitor["ValorTotal_Item"].ToString()) * 0.7);
+
+                listaLoja.Add(Double.Parse(leitor["ValorTotal_Item"].ToString()) * 0.3);
+            }
+
+            leitor.Close();
+            con.Close();
+            for (int j = 0; j < i; j++)
+            {
+                functions.updateChangeDeleteDatabase($"UPDATE tbl_itensvenda SET ValorArtesao_Item = {listaArtesao[j].ToString().Replace(',', '.')}, ValorLoja_Item = {listaLoja[j].ToString().Replace(',', '.')} WHERE Index_Venda = '{j+1}'");
+            }
+
         }
 
         private void btn_Sair_Click(object sender, EventArgs e)
@@ -37,6 +62,9 @@ namespace artesanatoCapixaba
 
         private void btnArtesao_Click(object sender, EventArgs e)
         {
+
+
+
             Artesao fArtesao = new Artesao();
             functions.configForm(fArtesao);
             fArtesao.Show();
