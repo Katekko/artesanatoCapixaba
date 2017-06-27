@@ -21,6 +21,9 @@ namespace artesanatoCapixaba
             fillCmbVendedor();
 
             txtCodProd.Focus();
+            txtDesconto.Enabled = false;
+            txtDesconto.BackColor = Color.LightGray;
+            
         }
 
         /*  Botões e Eventos  */
@@ -103,6 +106,8 @@ namespace artesanatoCapixaba
                     txtCodProd.BackColor = Color.White;
                     txtQuantidade.BackColor = Color.White;
                     txtQuantidade.Text = "";
+                    txtDesconto.Text = "";
+                    chkDesconto.Checked = false;
 
 
                     fillTxtTotal();
@@ -156,6 +161,20 @@ namespace artesanatoCapixaba
                 lblValorRecebido.Text = "Valor Recebido";
                 lblSegundaOpcao.Text = "Segunda Opção";
             }
+        }
+
+        private void chkDesconto_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkDesconto.Checked)
+            {
+                txtDesconto.Enabled = true;
+                txtDesconto.BackColor = Color.White;
+            }
+            else
+            {
+                txtDesconto.Enabled = false;
+                txtDesconto.BackColor = Color.LightGray;
+            } 
         }
 
         /* ------------------------------------------------------------- */
@@ -243,16 +262,29 @@ namespace artesanatoCapixaba
                 {
                     string codProduto = Datarow.Cells[0].Value.ToString();
 
-                    
-
                     int codArtesão = codProduto[0];
                     
                     int quantItem = Int32.Parse(Datarow.Cells[1].Value.ToString());
-                    double valorItem = Double.Parse(Datarow.Cells[2].Value.ToString());
-                    double valorArtesao = valorItem * 0.7;
-                    double valorLoja = valorItem * 0.3;
+                    double valorNovoItem = Double.Parse(Datarow.Cells[2].Value.ToString());
+                    double descontoItem = Double.Parse(Datarow.Cells[3].Value.ToString().Replace('%',' '));
+                    double valorAntigoItem = Double.Parse(Datarow.Cells[4].Value.ToString());
 
-                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda (Codigo_Venda, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, ValorArtesao_Item, ValorLoja_Item) VALUES ({codVenda}, '{codProduto}', {quantItem}, '{valorItem}', {valorArtesao.ToString().Replace(',', '.')}, {valorLoja.ToString().Replace(',','.')})");
+                    double valorArtesao;
+                    double valorLoja;
+
+                    //desconto ativo o valor do artesao vai em cima do valor do desconto e o nosso valor continua o mesmo
+                    if (descontoItem != 0)
+                    {
+                        valorLoja = valorAntigoItem * 0.3;
+                        valorArtesao = valorNovoItem * 0.7;
+                    }
+                    else
+                    {
+                        valorLoja = valorAntigoItem * 0.3;
+                        valorArtesao = valorAntigoItem * 0.7;
+                    }
+                    
+                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda (Codigo_Venda, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, ValorArtesao_Item, ValorLoja_Item, Desconto_Item) VALUES ({codVenda}, '{codProduto}', {quantItem}, '{valorNovoItem}', {valorArtesao.ToString().Replace(',', '.')}, {valorLoja.ToString().Replace(',','.')}, {descontoItem.ToString().Replace(',', '.')})");
                 }
             }
 
@@ -263,16 +295,40 @@ namespace artesanatoCapixaba
         {
             string codProduto = txtCodProd.Text;
             int quantProduto = Int32.Parse(txtQuantidade.Text);
-            double valorItem = getTotalValor();
+            double valorAntigoItem = getTotalValor();
+            double valorNovoItem;
+            double valorDesconto;
 
-            return fillGridItens(codProduto, quantProduto, valorItem);
+            Double.TryParse(txtDesconto.Text, out valorDesconto);
+
+            if (chkDesconto.Checked == true)
+            {
+                if (txtDesconto.Text != "")
+                {
+                    //com desconto
+                    valorNovoItem = (valorAntigoItem - (valorAntigoItem * (Double.Parse(txtDesconto.Text) / 100)));
+
+                    return fillGridItens(codProduto, quantProduto, valorNovoItem, valorAntigoItem, valorDesconto);
+                }
+                else
+                {
+                    functions.messageBOXwarning("Coloque um valor para o desconto ou desabilite-o!");
+                    return false;
+                }
+            }
+            else
+            { 
+                //sem desconto
+                valorNovoItem = valorAntigoItem;
+                return fillGridItens(codProduto, quantProduto, valorNovoItem, valorAntigoItem);
+            }
         }
 
-        private bool fillGridItens(string codProduto, int quantProduto, double valorItem)
+        private bool fillGridItens(string codProduto, int quantProduto, double valorNovoItem, double valorAntigoItem, double descontoItem = 0)
         {
             try
             {
-                gridItemVenda.Rows.Add(codProduto, quantProduto, valorItem);
+                gridItemVenda.Rows.Add(codProduto, quantProduto, valorNovoItem, descontoItem + "%", valorAntigoItem);
                 return true;
             }
             catch
@@ -514,5 +570,6 @@ namespace artesanatoCapixaba
         {
             functions.fillCmb("SELECT Nome_Vendedor FROM tbl_vendedor", "Nome_Vendedor", cmbVendedor);
         }
+
     }
 }
