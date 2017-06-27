@@ -275,13 +275,13 @@ namespace artesanatoCapixaba
                     //desconto ativo o valor do artesao vai em cima do valor do desconto e o nosso valor continua o mesmo
                     if (descontoItem != 0)
                     {
-                        valorLoja = valorAntigoItem * 0.3;
+                        valorLoja = valorNovoItem * 0.3;
                         valorArtesao = valorNovoItem * 0.7;
                     }
                     else
                     {
-                        valorLoja = valorAntigoItem * 0.3;
-                        valorArtesao = valorAntigoItem * 0.7;
+                        valorLoja = valorNovoItem * 0.3;
+                        valorArtesao = valorNovoItem * 0.7;
                     }
                     
                     functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda (Codigo_Venda, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, ValorArtesao_Item, ValorLoja_Item, Desconto_Item) VALUES ({codVenda}, '{codProduto}', {quantItem}, '{valorNovoItem}', {valorArtesao.ToString().Replace(',', '.')}, {valorLoja.ToString().Replace(',','.')}, {descontoItem.ToString().Replace(',', '.')})");
