@@ -18,6 +18,8 @@ namespace artesanatoCapixaba
 
         private static string usuarioAtual;
 
+        public static bool caixa = false;
+
         public static string getUsuarioAtual()
         {
             return usuarioAtual;
@@ -64,8 +66,15 @@ namespace artesanatoCapixaba
 
         public static void closeProgram()
         {
-            connection.Close();
-            Application.Exit();
+            if(caixa == true)
+            {
+                messageBOXwarning("O caixa se encontra aberto, feche o caixa primeiro para depois fechar o programa!");
+            }
+            else
+            {
+                connection.Close();
+                Application.Exit();
+            }           
         }
 
         public static void KeyPressOnlyNumber(object sender, KeyPressEventArgs e)

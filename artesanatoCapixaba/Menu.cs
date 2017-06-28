@@ -138,22 +138,67 @@ namespace artesanatoCapixaba
 
         }
 
+        private void btnCaixa_Click(object sender, EventArgs e)
+        {
+            Caixa fCaixa = new Caixa();
+            functions.configForm(fCaixa);
+            fCaixa.ShowDialog();
+        }
+
         /****************************************************************/
 
         private void atualizarGridVendas(string select)
         {
-            fillGridVendas(select);
             configGridVendas();
+            fillGridVendas(select);
         }
 
         private void fillGridVendas(string select)
         {
-            functions.fillGridFromSelect(select, gridVendas);
+            MySqlConnection con = functions.connectionSQL();
+            MySqlCommand query = new MySqlCommand(select, con);
+
+            var leitor = query.ExecuteReader();
+
+            functions.clearGrid(gridVendas);
+
+            double contValor = 0;
+            int contItens = 0;
+
+            if (!leitor.HasRows)
+            {
+                lblTotalResult.Text = "R$ 0,00";
+                functions.messageBOXok($"Nenhuma venda registrada entre {dtpVendasDe.Text} e {dtpVendasAte.Text}!!!");
+            }
+            else
+            {
+                while (leitor.Read())
+                {
+                    //Codigo_Venda, Nome, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, Data_Venda
+                    gridVendas.Rows.Add(leitor["Codigo_Venda"], leitor["Nome"], leitor["Codigo_Produto"], leitor["Quantidade_Produto"], Double.Parse(leitor["ValorTotal_Item"].ToString().Replace('.', ',')), leitor["Data_Venda"]);
+                    contItens += Int32.Parse(leitor["Quantidade_Produto"].ToString());
+                    contValor += Double.Parse(leitor["ValorTotal_Item"].ToString());
+                }
+
+                lblTotalResult.Text = "R$ " + contValor;
+                lblItensVendidosResult.Text = contItens + " itens";
+            }
+
+            leitor.Close();
+            con.Close();
         }
 
         private void configGridVendas()
         {
-            gridVendas.Columns[4].DefaultCellStyle.Format = "C2";
+
+            gridVendas.ColumnCount = 6;
+
+            gridVendas.Columns[0].Name = "Codigo_Venda";
+            gridVendas.Columns[1].Name = "Nome";
+            gridVendas.Columns[2].Name = "Codigo_Produto";
+            gridVendas.Columns[3].Name = "Quantidade_Produto";
+            gridVendas.Columns[4].Name = "ValorTotal_Item";
+            gridVendas.Columns[5].Name = "Data_Venda";
 
             gridVendas.Columns[0].HeaderText = "Venda";
             gridVendas.Columns[1].HeaderText = "Vendedor";
@@ -162,9 +207,10 @@ namespace artesanatoCapixaba
             gridVendas.Columns[4].HeaderText = "Arrecadado";
             gridVendas.Columns[5].HeaderText = "Data Venda";
 
-            //gridVendas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            gridVendas.Columns[4].DefaultCellStyle.Format = "C2";
+
             gridVendas.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            gridVendas.Columns[1].Width = 210;
+            gridVendas.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gridVendas.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridVendas.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridVendas.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
@@ -213,6 +259,7 @@ namespace artesanatoCapixaba
                 functions.updateChangeDeleteDatabase($"UPDATE tbl_itensvenda SET ValorArtesao_Item = {listaArtesao[j].ToString().Replace(',', '.')}, ValorLoja_Item = {listaLoja[j].ToString().Replace(',', '.')} WHERE Index_Venda = '{j + 1}'");
             }
         }
+
 
     }
 }
