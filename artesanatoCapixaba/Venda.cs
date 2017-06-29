@@ -539,8 +539,12 @@ namespace artesanatoCapixaba
                     return 2;
                 case "Cartão de Debito":
                     return 3;
-                case "Outros":
+                case "CC + Dinheiro":
                     return 4;
+                case "CD + Dinheiro":
+                    return 5;
+                case "CC + CD":
+                    return 6;
                 default:
                     return 0;
             }

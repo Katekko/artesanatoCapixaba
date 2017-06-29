@@ -33,6 +33,7 @@
             this.btnAbrirCaixa = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.txtDinheiroCaixa = new System.Windows.Forms.TextBox();
+            this.saveFile = new System.Windows.Forms.SaveFileDialog();
             this.boxCaixa.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -95,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.SandyBrown;
+            this.BackColor = System.Drawing.Color.Azure;
             this.ClientSize = new System.Drawing.Size(352, 131);
             this.Controls.Add(this.boxCaixa);
             this.Name = "Caixa";
@@ -113,5 +114,6 @@
         private System.Windows.Forms.Button btnAbrirCaixa;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtDinheiroCaixa;
+        private System.Windows.Forms.SaveFileDialog saveFile;
     }
 }
