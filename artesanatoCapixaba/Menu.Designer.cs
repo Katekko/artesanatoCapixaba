@@ -30,31 +30,31 @@
         private void InitializeComponent()
         {
             this.boxContent = new System.Windows.Forms.GroupBox();
+            this.lblItensVendidosResult = new System.Windows.Forms.Label();
+            this.lblItensVendidos = new System.Windows.Forms.Label();
+            this.lblTotalResult = new System.Windows.Forms.Label();
+            this.lblTotal = new System.Windows.Forms.Label();
             this.btnSair = new System.Windows.Forms.Button();
+            this.btnFuncionario = new System.Windows.Forms.Button();
             this.boxVendasFuncionarioAtual = new System.Windows.Forms.GroupBox();
             this.btnExport = new System.Windows.Forms.Button();
             this.chkUseData = new System.Windows.Forms.CheckBox();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.txtVendedor = new System.Windows.Forms.TextBox();
             this.lblVendedor = new System.Windows.Forms.Label();
+            this.gridVendas = new System.Windows.Forms.DataGridView();
             this.dtpVendasAte = new System.Windows.Forms.DateTimePicker();
             this.lblAte = new System.Windows.Forms.Label();
             this.dtpVendasDe = new System.Windows.Forms.DateTimePicker();
-            this.gridVendas = new System.Windows.Forms.DataGridView();
             this.lblUsuario = new System.Windows.Forms.Label();
             this.lblLogin = new System.Windows.Forms.Label();
             this.boxMenu = new System.Windows.Forms.GroupBox();
-            this.btnFuncionario = new System.Windows.Forms.Button();
+            this.btnCaixa = new System.Windows.Forms.Button();
             this.btnProduto = new System.Windows.Forms.Button();
             this.btnArtesao = new System.Windows.Forms.Button();
             this.btnEstoque = new System.Windows.Forms.Button();
             this.btnVender = new System.Windows.Forms.Button();
             this.saveFile = new System.Windows.Forms.SaveFileDialog();
-            this.btnCaixa = new System.Windows.Forms.Button();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.lblTotalResult = new System.Windows.Forms.Label();
-            this.lblItensVendidosResult = new System.Windows.Forms.Label();
-            this.lblItensVendidos = new System.Windows.Forms.Label();
             this.boxContent.SuspendLayout();
             this.boxVendasFuncionarioAtual.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridVendas)).BeginInit();
@@ -80,6 +80,48 @@
             this.boxContent.TabIndex = 1;
             this.boxContent.TabStop = false;
             // 
+            // lblItensVendidosResult
+            // 
+            this.lblItensVendidosResult.AutoSize = true;
+            this.lblItensVendidosResult.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblItensVendidosResult.ForeColor = System.Drawing.Color.Red;
+            this.lblItensVendidosResult.Location = new System.Drawing.Point(79, 428);
+            this.lblItensVendidosResult.Name = "lblItensVendidosResult";
+            this.lblItensVendidosResult.Size = new System.Drawing.Size(18, 19);
+            this.lblItensVendidosResult.TabIndex = 14;
+            this.lblItensVendidosResult.Text = "0";
+            // 
+            // lblItensVendidos
+            // 
+            this.lblItensVendidos.AutoSize = true;
+            this.lblItensVendidos.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblItensVendidos.Location = new System.Drawing.Point(28, 428);
+            this.lblItensVendidos.Name = "lblItensVendidos";
+            this.lblItensVendidos.Size = new System.Drawing.Size(54, 19);
+            this.lblItensVendidos.TabIndex = 13;
+            this.lblItensVendidos.Text = "Itens:";
+            // 
+            // lblTotalResult
+            // 
+            this.lblTotalResult.AutoSize = true;
+            this.lblTotalResult.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalResult.ForeColor = System.Drawing.Color.Red;
+            this.lblTotalResult.Location = new System.Drawing.Point(79, 393);
+            this.lblTotalResult.Name = "lblTotalResult";
+            this.lblTotalResult.Size = new System.Drawing.Size(67, 19);
+            this.lblTotalResult.TabIndex = 12;
+            this.lblTotalResult.Text = "R$ 0,00";
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotal.Location = new System.Drawing.Point(26, 393);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(56, 19);
+            this.lblTotal.TabIndex = 11;
+            this.lblTotal.Text = "Total:";
+            // 
             // btnSair
             // 
             this.btnSair.BackColor = System.Drawing.Color.Crimson;
@@ -91,6 +133,19 @@
             this.btnSair.Text = "S A I R";
             this.btnSair.UseVisualStyleBackColor = false;
             this.btnSair.Click += new System.EventHandler(this.btn_Sair_Click);
+            // 
+            // btnFuncionario
+            // 
+            this.btnFuncionario.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.btnFuncionario.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFuncionario.Enabled = false;
+            this.btnFuncionario.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnFuncionario.Location = new System.Drawing.Point(30, 541);
+            this.btnFuncionario.Name = "btnFuncionario";
+            this.btnFuncionario.Size = new System.Drawing.Size(128, 56);
+            this.btnFuncionario.TabIndex = 5;
+            this.btnFuncionario.Text = "F U N C ";
+            this.btnFuncionario.UseVisualStyleBackColor = false;
             // 
             // boxVendasFuncionarioAtual
             // 
@@ -165,6 +220,16 @@
             this.lblVendedor.TabIndex = 11;
             this.lblVendedor.Text = "Vendedor:";
             // 
+            // gridVendas
+            // 
+            this.gridVendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridVendas.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.gridVendas.Location = new System.Drawing.Point(6, 55);
+            this.gridVendas.Name = "gridVendas";
+            this.gridVendas.ReadOnly = true;
+            this.gridVendas.Size = new System.Drawing.Size(866, 586);
+            this.gridVendas.TabIndex = 6;
+            // 
             // dtpVendasAte
             // 
             this.dtpVendasAte.CustomFormat = "dd/MM/yyyy";
@@ -193,16 +258,6 @@
             this.dtpVendasDe.Name = "dtpVendasDe";
             this.dtpVendasDe.Size = new System.Drawing.Size(127, 26);
             this.dtpVendasDe.TabIndex = 6;
-            // 
-            // gridVendas
-            // 
-            this.gridVendas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridVendas.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.gridVendas.Location = new System.Drawing.Point(6, 55);
-            this.gridVendas.Name = "gridVendas";
-            this.gridVendas.ReadOnly = true;
-            this.gridVendas.Size = new System.Drawing.Size(866, 586);
-            this.gridVendas.TabIndex = 6;
             // 
             // lblUsuario
             // 
@@ -238,18 +293,18 @@
             this.boxMenu.TabIndex = 0;
             this.boxMenu.TabStop = false;
             // 
-            // btnFuncionario
+            // btnCaixa
             // 
-            this.btnFuncionario.BackColor = System.Drawing.Color.CornflowerBlue;
-            this.btnFuncionario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFuncionario.Enabled = false;
-            this.btnFuncionario.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFuncionario.Location = new System.Drawing.Point(30, 541);
-            this.btnFuncionario.Name = "btnFuncionario";
-            this.btnFuncionario.Size = new System.Drawing.Size(128, 56);
-            this.btnFuncionario.TabIndex = 5;
-            this.btnFuncionario.Text = "F U N C ";
-            this.btnFuncionario.UseVisualStyleBackColor = false;
+            this.btnCaixa.BackColor = System.Drawing.Color.Yellow;
+            this.btnCaixa.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCaixa.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCaixa.Location = new System.Drawing.Point(7, 19);
+            this.btnCaixa.Name = "btnCaixa";
+            this.btnCaixa.Size = new System.Drawing.Size(146, 52);
+            this.btnCaixa.TabIndex = 6;
+            this.btnCaixa.Text = "C A I X A";
+            this.btnCaixa.UseVisualStyleBackColor = false;
+            this.btnCaixa.Click += new System.EventHandler(this.btnCaixa_Click);
             // 
             // btnProduto
             // 
@@ -292,8 +347,9 @@
             // 
             // btnVender
             // 
-            this.btnVender.BackColor = System.Drawing.Color.Gold;
+            this.btnVender.BackColor = System.Drawing.Color.LightGray;
             this.btnVender.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnVender.Enabled = false;
             this.btnVender.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnVender.Location = new System.Drawing.Point(8, 77);
             this.btnVender.Name = "btnVender";
@@ -308,61 +364,6 @@
             this.saveFile.Filter = "Excel Files(2010)|*.xlsx";
             this.saveFile.InitialDirectory = "C:";
             this.saveFile.Title = "Save as Excel File";
-            // 
-            // btnCaixa
-            // 
-            this.btnCaixa.BackColor = System.Drawing.Color.Yellow;
-            this.btnCaixa.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnCaixa.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCaixa.Location = new System.Drawing.Point(7, 19);
-            this.btnCaixa.Name = "btnCaixa";
-            this.btnCaixa.Size = new System.Drawing.Size(146, 52);
-            this.btnCaixa.TabIndex = 6;
-            this.btnCaixa.Text = "C A I X A";
-            this.btnCaixa.UseVisualStyleBackColor = false;
-            this.btnCaixa.Click += new System.EventHandler(this.btnCaixa_Click);
-            // 
-            // lblTotal
-            // 
-            this.lblTotal.AutoSize = true;
-            this.lblTotal.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotal.Location = new System.Drawing.Point(26, 393);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(56, 19);
-            this.lblTotal.TabIndex = 11;
-            this.lblTotal.Text = "Total:";
-            // 
-            // lblTotalResult
-            // 
-            this.lblTotalResult.AutoSize = true;
-            this.lblTotalResult.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTotalResult.ForeColor = System.Drawing.Color.Red;
-            this.lblTotalResult.Location = new System.Drawing.Point(79, 393);
-            this.lblTotalResult.Name = "lblTotalResult";
-            this.lblTotalResult.Size = new System.Drawing.Size(67, 19);
-            this.lblTotalResult.TabIndex = 12;
-            this.lblTotalResult.Text = "R$ 0,00";
-            // 
-            // lblItensVendidosResult
-            // 
-            this.lblItensVendidosResult.AutoSize = true;
-            this.lblItensVendidosResult.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItensVendidosResult.ForeColor = System.Drawing.Color.Red;
-            this.lblItensVendidosResult.Location = new System.Drawing.Point(79, 428);
-            this.lblItensVendidosResult.Name = "lblItensVendidosResult";
-            this.lblItensVendidosResult.Size = new System.Drawing.Size(18, 19);
-            this.lblItensVendidosResult.TabIndex = 14;
-            this.lblItensVendidosResult.Text = "0";
-            // 
-            // lblItensVendidos
-            // 
-            this.lblItensVendidos.AutoSize = true;
-            this.lblItensVendidos.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblItensVendidos.Location = new System.Drawing.Point(28, 428);
-            this.lblItensVendidos.Name = "lblItensVendidos";
-            this.lblItensVendidos.Size = new System.Drawing.Size(54, 19);
-            this.lblItensVendidos.TabIndex = 13;
-            this.lblItensVendidos.Text = "Itens:";
             // 
             // menuPrincipal
             // 

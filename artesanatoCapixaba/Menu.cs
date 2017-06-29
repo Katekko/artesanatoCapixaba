@@ -4,6 +4,7 @@ using System.Data;
 using ClosedXML.Excel;
 using MySql.Data.MySqlClient;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace artesanatoCapixaba
 {
@@ -139,6 +140,16 @@ namespace artesanatoCapixaba
             Caixa fCaixa = new Caixa();
             functions.configForm(fCaixa);
             fCaixa.ShowDialog();
+            if (functions.caixaEstado)
+            {
+                btnVender.Enabled = true;
+                btnVender.BackColor = Color.Gold;
+            }
+            else
+            {
+                btnVender.Enabled = false;
+                btnVender.BackColor = Color.LightGray;
+            }
         }
 
         /****************************************************************/

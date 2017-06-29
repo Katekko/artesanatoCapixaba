@@ -1,13 +1,7 @@
 ﻿using ClosedXML.Excel;
 using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace artesanatoCapixaba
@@ -54,100 +48,133 @@ namespace artesanatoCapixaba
                 Cursor.Current = Cursors.WaitCursor;
 
                 var workbook = new XLWorkbook();
-                var ws = workbook.Worksheets.Add("Relatorio de Caixa");
+                var relatorioCaixa = workbook.Worksheets.Add("Relatório de Caixa");
+                var relatorioItens = workbook.Worksheets.Add("Relatório de Itens");
 
-                var col1 = ws.Column("A");
+                /*Relatório Do Caixa*/
+                var col1 = relatorioCaixa.Column("A");
                 col1.Width = 28;
 
-                var col2 = ws.Column("B");
+                var col2 = relatorioCaixa.Column("B");
                 col2.Width = 25;
 
-                var range1 = ws.Range("A1:F100");
+                var range1 = relatorioCaixa.Range("A1:F100");
                 range1.Style.Font.FontSize = 16;
 
-                var range2 = ws.Range("B3:B8");
+                var range2 = relatorioCaixa.Range("B3:B8");
                 range2.Style.NumberFormat.Format = "R$ #,##0.00";
 
-                ws.Cell("A1").Value = "CAIXA DO DIA";
-                ws.Cell("A1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                ws.Cell("A1").Style.Font.Bold = true;
-                ws.Cell("A1").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 192, 0);
-                ws.Cell("A1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A1").Value = "CAIXA DO DIA";
+                relatorioCaixa.Cell("A1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                relatorioCaixa.Cell("A1").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A1").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 192, 0);
+                relatorioCaixa.Cell("A1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B1").Value = dataAgora;
-                ws.Cell("B1").Style.Font.Bold = true;
-                ws.Cell("B1").Style.Font.FontColor = XLColor.Red;
-                ws.Cell("B1").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 192, 0);
-                ws.Cell("B1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B1").Value = dataAgora;
+                relatorioCaixa.Cell("B1").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B1").Style.Font.FontColor = XLColor.Red;
+                relatorioCaixa.Cell("B1").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 192, 0);
+                relatorioCaixa.Cell("B1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A3").Value = "1.Saldo Inicial";
-                ws.Cell("A3").Style.Font.Bold = true;
-                ws.Cell("A3").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
-                ws.Cell("A3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A3").Value = "1.Saldo Inicial";
+                relatorioCaixa.Cell("A3").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A3").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
+                relatorioCaixa.Cell("A3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B3").Value = saldoInicial;
-                ws.Cell("B3").Style.Font.Bold = true;
-                ws.Cell("B3").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
-                ws.Cell("B3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B3").Value = saldoInicial;
+                relatorioCaixa.Cell("B3").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B3").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
+                relatorioCaixa.Cell("B3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A4").Value = "2.Vendas";
-                ws.Cell("A4").Style.Font.Bold = true;
-                ws.Cell("A4").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
-                ws.Cell("A4").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A4").Value = "2.Vendas";
+                relatorioCaixa.Cell("A4").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A4").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
+                relatorioCaixa.Cell("A4").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B4").Value = totalVendas;
-                ws.Cell("B4").Style.Font.Bold = true;
-                ws.Cell("B4").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
-                ws.Cell("B4").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B4").Value = totalVendas;
+                relatorioCaixa.Cell("B4").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B4").Style.Fill.BackgroundColor = XLColor.FromArgb(189, 215, 238);
+                relatorioCaixa.Cell("B4").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A5").Value = "2.1.Dinheiro";
-                ws.Cell("A5").Style.Font.Bold = true;
-                ws.Cell("A5").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("A5").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("A5").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A5").Value = "2.1.Dinheiro";
+                relatorioCaixa.Cell("A5").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A5").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("A5").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("A5").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B5").Value = dinheiroVendas;
-                ws.Cell("B5").Style.Font.Bold = true;
-                ws.Cell("B5").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("B5").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("B5").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B5").Value = dinheiroVendas;
+                relatorioCaixa.Cell("B5").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B5").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("B5").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("B5").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A6").Value = "2.2.Cartão de Credito";
-                ws.Cell("A6").Style.Font.Bold = true;
-                ws.Cell("A6").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("A6").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("A6").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A6").Value = "2.2.Cartão de Credito";
+                relatorioCaixa.Cell("A6").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A6").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("A6").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("A6").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B6").Value = cartaoCreVendas;
-                ws.Cell("B6").Style.Font.Bold = true;
-                ws.Cell("B6").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("B6").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("B6").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B6").Value = cartaoCreVendas;
+                relatorioCaixa.Cell("B6").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B6").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("B6").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("B6").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A7").Value = "2.3.Cartão de Débito";
-                ws.Cell("A7").Style.Font.Bold = true;
-                ws.Cell("A7").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("A7").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("A7").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A7").Value = "2.3.Cartão de Débito";
+                relatorioCaixa.Cell("A7").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A7").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("A7").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("A7").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B7").Value = cartaoDebVendas;
-                ws.Cell("B7").Style.Font.Bold = true;
-                ws.Cell("B7").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("B7").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
-                ws.Cell("B7").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("B7").Value = cartaoDebVendas;
+                relatorioCaixa.Cell("B7").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B7").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("B7").Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 80);
+                relatorioCaixa.Cell("B7").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("A8").Value = "3.Saldo Final";
-                ws.Cell("A8").Style.Font.Bold = true;
-                ws.Cell("A8").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("A8").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 0, 0);
-                ws.Cell("A8").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioCaixa.Cell("A8").Value = "3.Saldo Final";
+                relatorioCaixa.Cell("A8").Style.Font.Bold = true;
+                relatorioCaixa.Cell("A8").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("A8").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 0, 0);
+                relatorioCaixa.Cell("A8").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell("B8").FormulaA1 = $"=SUM(B3:B4)";
-                ws.Cell("B8").Style.Font.Bold = true;
-                ws.Cell("B8").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
-                ws.Cell("B8").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 0, 0);
-                ws.Cell("B8").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
-              
+                relatorioCaixa.Cell("B8").FormulaA1 = $"=SUM(B3:B4)";
+                relatorioCaixa.Cell("B8").Style.Font.Bold = true;
+                relatorioCaixa.Cell("B8").Style.Font.FontColor = XLColor.FromArgb(255, 255, 0);
+                relatorioCaixa.Cell("B8").Style.Fill.BackgroundColor = XLColor.FromArgb(255, 0, 0);
+                relatorioCaixa.Cell("B8").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                /*--------------------------------------------------------------------------------------*/
+
+                /*Relatório Dos Itens*/
+
+                var col3 = relatorioItens.Column("A");
+                col3.Width = 13;
+
+                var col4 = relatorioItens.Column("B");
+                col4.Width = 15;
+
+                var col5 = relatorioItens.Column("C");
+                col5.Width = 17;
+
+                var row1 = relatorioItens.Row(1);
+                row1.Style.Fill.BackgroundColor = XLColor.Yellow;
+                row1.Style.Font.FontColor = XLColor.Red;
+
+                var row2 = relatorioItens.Row(2);
+                row2.Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 240);
+                row2.Style.Font.FontColor = XLColor.Yellow;
+
+                var row3 = relatorioItens.Row(2);
+                row1.Style.Fill.BackgroundColor = XLColor.Red;
+                row1.Style.Font.FontColor = XLColor.Yellow;
+
+                var range3 = relatorioItens.Range("A1:F100");
+                range3.Style.Font.FontSize = 16;
+
+
+                /*--------------------------------------------------------------------------------------*/
+
                 workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
 
                 Cursor.Current = Cursors.Default;
@@ -230,7 +257,7 @@ namespace artesanatoCapixaba
             {
                 functions.dinheiroCaixa = Double.Parse(txtDinheiroCaixa.Text);
                 configForm(true);
-                Close();
+                Close();       
                 functions.messageBOXok($"Caixa aberto com {functions.dinheiroCaixa} reais!!!");
             }
             else
