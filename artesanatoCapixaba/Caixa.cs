@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,15 +13,21 @@ namespace artesanatoCapixaba
 {
     public partial class Caixa : Form
     {
+
         public Caixa()
         {
             InitializeComponent();
-            configForm();
+            configForm(functions.caixaEstado);
         }
 
         private void btnAbrirCaixa_Click(object sender, EventArgs e)
         {
+            abrirCaixa();
+        }
 
+        private void btnFecharCaixa_Click(object sender, EventArgs e)
+        {
+            fecharCaixa();
         }
 
         private void txtDinheiroCaixa_KeyPress(object sender, KeyPressEventArgs e)
@@ -30,12 +37,43 @@ namespace artesanatoCapixaba
 
         /**********************************************************************/
 
-        private void configForm()
+        private void exportarRelatorio()
         {
-            bool caixaAberto = functions.caixa;
 
+        }
+
+
+        private void fecharCaixa()
+        {
+            if (functions.messageBOXConfirma("Deseja fechar o caixa?", "Fechando o caixa"))
+            {
+                configForm(false);
+                Close();
+                functions.messageBOXok($"Caixa fechado com sucesso, tenha uma boa noite!");
+            }
+        }
+
+        private void abrirCaixa()
+        {
+            if (txtDinheiroCaixa.Text != "")
+            {
+                functions.dinheiroCaixa = Double.Parse(txtDinheiroCaixa.Text);
+                configForm(true);
+                Close();
+                functions.messageBOXok($"Caixa aberto com {functions.dinheiroCaixa} reais!!!");
+            }
+            else
+            {
+                functions.messageBOXwarning("Informe a quantia inicial para iniciar o caixa!!");
+            }
+        }
+
+        private void configForm(bool caixaAberto)
+        {
             if (caixaAberto)
             {
+                functions.caixaEstado = true;
+                txtDinheiroCaixa.Text = functions.dinheiroCaixa.ToString();
                 txtDinheiroCaixa.Enabled = false;
                 txtDinheiroCaixa.ReadOnly = true;
                 btnAbrirCaixa.Enabled = false;
@@ -45,6 +83,9 @@ namespace artesanatoCapixaba
             }
             else
             {
+                functions.caixaEstado = false;
+                txtDinheiroCaixa.Text = "";
+                txtDinheiroCaixa.Focus();
                 txtDinheiroCaixa.Enabled = true;
                 txtDinheiroCaixa.ReadOnly = false;
                 btnAbrirCaixa.Enabled = true;
@@ -53,7 +94,6 @@ namespace artesanatoCapixaba
                 btnFecharCaixa.BackColor = Color.LightGray;
             }
         }
-
 
     }
 }

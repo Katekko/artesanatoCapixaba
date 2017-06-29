@@ -14,8 +14,7 @@ namespace artesanatoCapixaba
             "SELECT tbl_registrovendas.Codigo_Venda, tbl_vendedor.Nome_Vendedor AS 'Nome', tbl_itensvenda.Codigo_Produto, tbl_itensvenda.Quantidade_Produto, tbl_itensvenda.ValorTotal_Item, tbl_registrovendas.Data_Venda" +
             " FROM tbl_registrovendas " +
             " INNER JOIN tbl_vendedor ON tbl_vendedor.Codigo_Vendedor = tbl_registrovendas.Codigo_Vendedor" +
-            " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Venda = tbl_registrovendas.Codigo_Venda" +
-            " ";
+            " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Venda = tbl_registrovendas.Codigo_Venda ";
 
         public menuPrincipal()
         {
@@ -39,9 +38,6 @@ namespace artesanatoCapixaba
 
         private void btnArtesao_Click(object sender, EventArgs e)
         {
-
-
-
             Artesao fArtesao = new Artesao();
             functions.configForm(fArtesao);
             fArtesao.Show();
@@ -168,6 +164,7 @@ namespace artesanatoCapixaba
             if (!leitor.HasRows)
             {
                 lblTotalResult.Text = "R$ 0,00";
+                lblItensVendidosResult.Text = "0 itens";
                 functions.messageBOXok($"Nenhuma venda registrada entre {dtpVendasDe.Text} e {dtpVendasAte.Text}!!!");
             }
             else

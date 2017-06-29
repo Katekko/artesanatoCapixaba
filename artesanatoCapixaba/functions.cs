@@ -15,10 +15,10 @@ namespace artesanatoCapixaba
         private static string connString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
         private static MySqlConnection connection = new MySqlConnection(connString);
 
-
         private static string usuarioAtual;
 
-        public static bool caixa = false;
+        public static bool caixaEstado = false;
+        public static double dinheiroCaixa;
 
         public static string getUsuarioAtual()
         {
@@ -66,7 +66,7 @@ namespace artesanatoCapixaba
 
         public static void closeProgram()
         {
-            if(caixa == true)
+            if(caixaEstado == true)
             {
                 messageBOXwarning("O caixa se encontra aberto, feche o caixa primeiro para depois fechar o programa!");
             }

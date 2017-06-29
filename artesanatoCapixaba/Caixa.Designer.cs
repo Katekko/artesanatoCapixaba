@@ -60,6 +60,7 @@
             this.btnFecharCaixa.TabIndex = 3;
             this.btnFecharCaixa.Text = "Fechar Caixa";
             this.btnFecharCaixa.UseVisualStyleBackColor = false;
+            this.btnFecharCaixa.Click += new System.EventHandler(this.btnFecharCaixa_Click);
             // 
             // btnAbrirCaixa
             // 
