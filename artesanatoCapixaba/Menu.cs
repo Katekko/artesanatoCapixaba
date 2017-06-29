@@ -55,7 +55,7 @@ namespace artesanatoCapixaba
         {
             Estoque fEstoque = new Estoque();
             functions.configForm(fEstoque);
-            fEstoque.ShowDialog();
+            fEstoque.Show();
         }
 
         private void btnVender_Click(object sender, EventArgs e)

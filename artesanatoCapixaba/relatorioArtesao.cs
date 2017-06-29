@@ -222,13 +222,21 @@ namespace artesanatoCapixaba
                 var col4 = ws.Column("E");
                 col4.Width = 16;
                 col4.Style.NumberFormat.Format = "R$ #,##0.00";
+                col4.DataType = XLCellValues.Number;
 
                 var col5 = ws.Column("F");
                 col5.Width = 4;
+                col5.DataType = XLCellValues.Number;
                 col5.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                var range1 = ws.Range("A1:F100");
+                var range1 = ws.Range("A1:S101");
                 range1.Style.Font.FontSize = 16;
+                range1.Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                ws.Cell("B1").Value = "Relatório do Artesão de " + dtpDataDe.Text + " Até " + dtpDataAte.Text;
+                ws.Cell("B1").Style.Font.Bold = true;
+                ws.Cell("B1").Style.Font.FontColor = XLColor.Red;
+                ws.Cell("B1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
                 ws.Cell("B2").Value = txtCodArtesao.Text;
                 ws.Cell("B2").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
@@ -271,6 +279,12 @@ namespace artesanatoCapixaba
                 ws.Cell((gridArtesao.RowCount - 1) + 2, 5).Style.Fill.BackgroundColor = XLColor.Red;
                 ws.Cell((gridArtesao.RowCount - 1) + 2, 5).Style.Font.FontColor = XLColor.Yellow;
                 ws.Cell((gridArtesao.RowCount - 1) + 2, 5).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                ws.Cell((gridArtesao.RowCount - 1) + 2, 6).FormulaA1 = $"=SUM(F2:F{gridArtesao.RowCount})";
+                ws.Cell((gridArtesao.RowCount - 1) + 2, 6).Style.Font.Bold = true;
+                ws.Cell((gridArtesao.RowCount - 1) + 2, 6).Style.Fill.BackgroundColor = XLColor.Red;
+                ws.Cell((gridArtesao.RowCount - 1) + 2, 6).Style.Font.FontColor = XLColor.Yellow;
+                ws.Cell((gridArtesao.RowCount - 1) + 2, 6).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 4).Value = "Artesão:";
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 4).Style.Font.Bold = true;
