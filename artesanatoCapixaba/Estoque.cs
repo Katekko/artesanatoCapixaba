@@ -107,7 +107,7 @@ namespace artesanatoCapixaba
 
             if (txtCodProd.Text != "")
             {
-                auxV += " AND tbl_estoque.Codigo_Produto = '" + txtCodProd.Text + "'";
+                auxV += " AND tbl_estoque.Codigo_Produto LIKE '" + txtCodProd.Text + "%'";
             }
 
             if (cmbTipoProduto.GetItemText(cmbTipoProduto.SelectedItem) != "" && cmbTipoProduto.GetItemText(cmbTipoProduto.SelectedItem) != "Nenhum")
