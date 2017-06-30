@@ -229,9 +229,11 @@ namespace artesanatoCapixaba
                 col5.DataType = XLCellValues.Number;
                 col5.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
 
-                var range1 = ws.Range("A1:S101");
+                var range1 = ws.Range("A1:G16");
                 range1.Style.Font.FontSize = 16;
-                range1.Style.Fill.BackgroundColor = XLColor.LightGray;
+
+                var range2 = ws.Range("A1:G1");
+                range2.Style.Fill.BackgroundColor = XLColor.White;
 
                 ws.Cell("B1").Value = "Relatório do Artesão de " + dtpDataDe.Text + " Até " + dtpDataAte.Text;
                 ws.Cell("B1").Style.Font.Bold = true;
@@ -296,7 +298,6 @@ namespace artesanatoCapixaba
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 5).Style.Fill.BackgroundColor = XLColor.LightGray;
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 5).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-
                 ws.Cell((gridArtesao.RowCount - 1) + 4, 4).Value = "Loja:";
                 ws.Cell((gridArtesao.RowCount - 1) + 4, 4).Style.Font.Bold = true;
                 ws.Cell((gridArtesao.RowCount - 1) + 4, 4).Style.Fill.BackgroundColor = XLColor.LightGray;
@@ -314,25 +315,6 @@ namespace artesanatoCapixaba
                 functions.messageBOXok("Dados Exportados com Sucesso");
             }
         }
-
-        private void releaseObject(object obj)
-        {
-            try
-            {
-                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
-                obj = null;
-            }
-            catch (Exception ex)
-            {
-                obj = null;
-                MessageBox.Show("Exception Occured while releasing object " + ex.ToString());
-            }
-            finally
-            {
-                GC.Collect();
-            }
-        }
-
 
     }
 }

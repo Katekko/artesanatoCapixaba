@@ -169,7 +169,7 @@ namespace artesanatoCapixaba
                 row1.Style.Fill.BackgroundColor = XLColor.Red;
                 row1.Style.Font.FontColor = XLColor.Yellow;
 
-                var range3 = relatorioItens.Range("A1:F100");
+                var range3 = relatorioItens.Range("A1:G16");
                 range3.Style.Font.FontSize = 16;
 
 
@@ -186,7 +186,7 @@ namespace artesanatoCapixaba
         private double[] getTotalVendas()
         {
             string select =
-            "SELECT tbl_itensvenda.ValorTotal_Item, tbl_registrovendas.TipoPagamento_Venda" +
+            "SELECT tbl_itensvenda.ValorTotal_Item, tbl_registrovendas.TipoPagamento_Venda, tbl_registrovendas.ValorPrimeiroTipo_Venda, tbl_registrovendas.ValorSegundoTipo_Venda" +
             " FROM tbl_produto" +
             " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Produto = tbl_produto.Codigo_Produto" +
             " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao" +
@@ -211,24 +211,30 @@ namespace artesanatoCapixaba
                 {
                     //Dinheiro
                     case 1:
-                        valorTotal[1] += Double.Parse(leitor["ValorTotal_Item"].ToString());
+                        valorTotal[1] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
                         break;
                     //CC
                     case 2:
-                        valorTotal[2] += Double.Parse(leitor["ValorTotal_Item"].ToString());
+                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
                         break;
                     //CD
                     case 3:
-                        valorTotal[3] += Double.Parse(leitor["ValorTotal_Item"].ToString());
+                        valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
                         break;
                     //CC + Dinheiro
                     case 4:
+                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                        valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
                         break;
                     //CD + Dinheiro
                     case 5:
+                        valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                        valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
                         break;
                     //CC + CD
                     case 6:
+                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                        valorTotal[3] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
                         break;
                 }
             }

@@ -11,7 +11,7 @@ namespace artesanatoCapixaba
 
         private string valorTotal;
         private string valorRecebido1;
-        private string valorRecebido;
+        private string valorRecebido2;
 
         public Venda()
         {
@@ -23,7 +23,8 @@ namespace artesanatoCapixaba
             txtCodProd.Focus();
             txtDesconto.Enabled = false;
             txtDesconto.BackColor = Color.LightGray;
-            
+            txtSegundaOpcao.ReadOnly = true;
+            txtSegundaOpcao.Enabled = false;
         }
 
         /*  Botões e Eventos  */
@@ -78,22 +79,20 @@ namespace artesanatoCapixaba
         private void txtValorRecebido_Leave(object sender, EventArgs e)
         {
             //if (txtValorRecebido.Text == "") { txtValorRecebido.Focus(); functions.messageBOXwarning("Informe o valor recebido!"); return; }
+            int indexTipo = cmbTipoPagamento.SelectedIndex;
 
-            if (txtSegundaOpcao.Enabled == false)
+            if (!(indexTipo >= 3 && indexTipo <= 5))
             {
-                valorRecebido = functions.transformCurrent(txtValorRecebido);
+                valorRecebido1 = functions.transformCurrent(txtValorRecebido);
                 fillTxtTroco();
             }
             else
             {
                 valorRecebido1 = functions.transformCurrent(txtValorRecebido);
+                double restante = Double.Parse(valorTotal) - Double.Parse(valorRecebido1);
+                txtSegundaOpcao.Text = restante.ToString();
+                valorRecebido2 = functions.transformCurrent(txtSegundaOpcao);
             }
-        }
-
-        private void txtSegundaOpcao_Leave(object sender, EventArgs e)
-        {
-            if (txtSegundaOpcao.Text == "") { txtSegundaOpcao.Focus(); functions.messageBOXwarning("Informe o valor recebido!"); return; }
-            valorRecebido = functions.transformCurrent(txtSegundaOpcao, (Double.Parse(valorRecebido1) + Double.Parse(txtSegundaOpcao.Text)).ToString());
         }
 
         private void btnAdicionarItem_Click(object sender, EventArgs e)
@@ -135,9 +134,6 @@ namespace artesanatoCapixaba
 
             if (indexTipo >= 3 && indexTipo <= 5)
             {
-                txtSegundaOpcao.Enabled = true;
-                txtSegundaOpcao.BackColor = Color.White;
-
                 switch (indexTipo)
                 {
                     case 3:
@@ -156,10 +152,9 @@ namespace artesanatoCapixaba
             }
             else
             {
-                txtSegundaOpcao.Enabled = false;
-                txtSegundaOpcao.BackColor = Color.LightGray;
                 lblValorRecebido.Text = "Valor Recebido";
                 lblSegundaOpcao.Text = "Segunda Opção";
+                txtSegundaOpcao.Text = "";
             }
         }
 
@@ -391,9 +386,9 @@ namespace artesanatoCapixaba
 
         private void fillTxtTroco()
         {
-            if (valorRecebido != null && valorTotal != null)
+            if (valorRecebido1 != null && valorTotal != null)
             {
-                double troco = Double.Parse(valorRecebido) - Double.Parse(valorTotal);
+                double troco = Double.Parse(valorRecebido1) - Double.Parse(valorTotal);
 
                 txtTroco.Text = troco.ToString();
 
@@ -474,13 +469,48 @@ namespace artesanatoCapixaba
             if (checkTxt())
             {
                 int codigoVendedor = getIdVendedor(cmbVendedor.GetItemText(cmbVendedor.SelectedItem));
-                double valorArrecadado = Double.Parse(valorTotal);
                 int tipoPagamento = getTipoPagamento(cmbTipoPagamento.GetItemText(cmbTipoPagamento.SelectedItem));
                 string data = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
-    
-                if(insertRegistroVendas(codigoVendedor, valorArrecadado.ToString().Replace(',','.'), tipoPagamento, data))
+
+                double valorPrimeiraOpcao;
+
+                int indexTipo = cmbTipoPagamento.SelectedIndex;
+
+                if (!(indexTipo >= 3 && indexTipo <= 5))
                 {
-                    return true;
+                    valorPrimeiraOpcao = Double.Parse(valorRecebido1) - (Double.Parse(valorRecebido1) - Double.Parse(valorTotal));
+                }
+                else
+                {
+                    valorPrimeiraOpcao = Double.Parse(valorRecebido1);
+                }
+
+                double valorSegundaOpcao;
+
+                Double.TryParse(valorRecebido2, out valorSegundaOpcao);
+
+                switch (tipoPagamento)
+                {
+                    case 4:
+                    case 5:
+                    case 6:
+                        if (insertRegistroVendas(codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.'), valorSegundaOpcao.ToString().Replace(',', '.')))
+                        {
+                            valorTotal = "";
+                            valorRecebido1 = "";
+                            valorRecebido2 = "";
+                            return true;
+                        }
+                        break;
+                    default:
+                        if (insertRegistroVendas(codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.')))
+                        {
+                            valorTotal = "";
+                            valorRecebido1 = "";
+                            valorRecebido2 = "";
+                            return true;
+                        }
+                        break;
                 }
 
                 return false;
@@ -520,9 +550,9 @@ namespace artesanatoCapixaba
             return true;
         }
 
-        private bool insertRegistroVendas(int codigoVendedor, string valorArrecadado, int tipoPagamento, string dataVenda)
+        private bool insertRegistroVendas(int codigoVendedor, string valorArrecadado, int tipoPagamento, string dataVenda, string valorPrimeiraOpcao, string valorSegundaOpcao = "0")
         {
-            if(functions.updateChangeDeleteDatabase($"INSERT INTO tbl_registrovendas  ( Codigo_Vendedor, Codigo_ResponsavelCaixa, ValorArrecadado_Venda, TipoPagamento_Venda, Data_Venda) VALUES ( {codigoVendedor}, {functions.getIDusuarioAtual()}, '{valorArrecadado}',  {tipoPagamento},  '{dataVenda}')"))
+            if(functions.updateChangeDeleteDatabase($"INSERT INTO tbl_registrovendas  ( Codigo_Vendedor, Codigo_ResponsavelCaixa, ValorArrecadado_Venda, TipoPagamento_Venda, Data_Venda, ValorPrimeiroTipo_Venda, ValorSegundoTipo_Venda) VALUES ( {codigoVendedor}, {functions.getIDusuarioAtual()}, '{valorArrecadado}',  {tipoPagamento},  '{dataVenda}', {valorPrimeiraOpcao}, {valorSegundaOpcao})"))
             {
                 return true;
             }

@@ -257,7 +257,6 @@
             this.txtSegundaOpcao.Name = "txtSegundaOpcao";
             this.txtSegundaOpcao.Size = new System.Drawing.Size(172, 26);
             this.txtSegundaOpcao.TabIndex = 7;
-            this.txtSegundaOpcao.Leave += new System.EventHandler(this.txtSegundaOpcao_Leave);
             // 
             // lblTipoPagamento
             // 
