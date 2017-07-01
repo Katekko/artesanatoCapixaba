@@ -32,7 +32,7 @@ namespace artesanatoCapixaba
 
         /**********************************************************************/
 
-        private void exportarCaixaFinal()
+        public void exportarCaixaFinal()
         {
             double[] valores = getTotalVendas();
 
@@ -148,31 +148,97 @@ namespace artesanatoCapixaba
 
                 /*Relatório Dos Itens*/
 
-                var col3 = relatorioItens.Column("A");
-                col3.Width = 13;
+                relatorioItens.Column("A").Width = 14;
 
-                var col4 = relatorioItens.Column("B");
-                col4.Width = 15;
+                relatorioItens.Column("B").Width = 15;
 
-                var col5 = relatorioItens.Column("C");
-                col5.Width = 17;
+                relatorioItens.Column("C").Width = 18;
+                relatorioItens.Column("C").Style.NumberFormat.SetFormat("R$ #,##0.00");
 
-                var row1 = relatorioItens.Row(1);
-                row1.Style.Fill.BackgroundColor = XLColor.Yellow;
-                row1.Style.Font.FontColor = XLColor.Red;
+                relatorioItens.Column("D").Width = 12;
+                relatorioItens.Column("D").Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center);
 
-                var row2 = relatorioItens.Row(2);
-                row2.Style.Fill.BackgroundColor = XLColor.FromArgb(0, 176, 240);
-                row2.Style.Font.FontColor = XLColor.Yellow;
+                relatorioItens.Range("A1:D100").Style.Font.FontSize = 16;
 
-                var row3 = relatorioItens.Row(2);
-                row1.Style.Fill.BackgroundColor = XLColor.Red;
-                row1.Style.Font.FontColor = XLColor.Yellow;
+                var range4 = relatorioItens.Range("A1:D1");
+                range4.Style.Fill.BackgroundColor = XLColor.Yellow;
+                range4.Style.Font.FontColor = XLColor.Red;
+                range4.Style.Font.SetBold(true);
+                range4.Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                range4.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                var range3 = relatorioItens.Range("A1:G16");
-                range3.Style.Font.FontSize = 16;
+                relatorioItens.Cell("A1").Value = "Itens";
+                relatorioItens.Cell("B1").Value = "Quantidade";
+                relatorioItens.Cell("C1").Value = "Arrecadado";
+                relatorioItens.Cell("D1").Value = "Desconto";
 
 
+                /*entrando com os itens*/
+                string select =
+                   " SELECT tbl_itensvenda.Codigo_Produto, tbl_itensvenda.Quantidade_Produto, tbl_itensvenda.ValorTotal_Item, tbl_itensvenda.Desconto_Item " +
+                   " FROM tbl_produto " +
+                   " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Produto = tbl_produto.Codigo_Produto" +
+                   " INNER JOIN tbl_registrovendas ON tbl_registrovendas.Codigo_Venda = tbl_itensvenda.Codigo_Venda" +
+                   $" WHERE tbl_registrovendas.Data_Venda BETWEEN '{functions.configDataSql(DateTime.Now.ToShortDateString())} 00:00:00' AND '{functions.configDataSql(DateTime.Now.ToShortDateString())} 23:59:59';";
+
+                MySqlConnection con = functions.connectionSQL();
+                MySqlCommand query = new MySqlCommand(select, con);
+
+                var leitor = query.ExecuteReader();
+                int aux = 0;
+                while (leitor.Read())
+                {
+                    relatorioItens.Cell(2 + aux, 1).Value = leitor["Codigo_Produto"];
+                    relatorioItens.Cell(2 + aux, 1).Style.Font.FontColor = XLColor.White;
+                    relatorioItens.Cell(2 + aux, 1).Style.Fill.BackgroundColor = XLColor.FromArgb(83, 141, 213);
+                    relatorioItens.Cell(2 + aux, 1).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 1).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 1).Style.Font.SetBold(true);
+
+                    relatorioItens.Cell(2 + aux, 2).Value = leitor["Quantidade_Produto"];
+                    relatorioItens.Cell(2 + aux, 2).Style.Font.FontColor = XLColor.White;
+                    relatorioItens.Cell(2 + aux, 2).Style.Fill.BackgroundColor = XLColor.FromArgb(83, 141, 213);
+                    relatorioItens.Cell(2 + aux, 2).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 2).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 2).Style.Font.SetBold(true);
+
+
+                    relatorioItens.Cell(2 + aux, 3).Value = leitor["ValorTotal_Item"].ToString().Replace(',', '.');
+                    relatorioItens.Cell(2 + aux, 3).Style.Font.FontColor = XLColor.White;
+                    relatorioItens.Cell(2 + aux, 3).Style.Fill.BackgroundColor = XLColor.FromArgb(83, 141, 213);
+                    relatorioItens.Cell(2 + aux, 3).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 3).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 3).Style.Font.SetBold(true);
+
+                    relatorioItens.Cell(2 + aux, 4).Value = leitor["Desconto_Item"];
+                    relatorioItens.Cell(2 + aux, 4).Style.Font.FontColor = XLColor.FromArgb(0, 32, 96);
+                    relatorioItens.Cell(2 + aux, 4).Style.Fill.BackgroundColor = XLColor.FromArgb(226, 107, 10);
+                    relatorioItens.Cell(2 + aux, 4).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 4).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                    relatorioItens.Cell(2 + aux, 4).Style.Font.SetBold(true);
+                    aux++;
+                }
+                
+                relatorioItens.Cell(2 + aux, 1).Value = "Total:";
+                relatorioItens.Cell(2 + aux, 1).Style.Font.FontColor = XLColor.Yellow;
+                relatorioItens.Cell(2 + aux, 1).Style.Fill.BackgroundColor = XLColor.Red;
+                relatorioItens.Cell(2 + aux, 1).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 1).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 1).Style.Font.SetBold(true);
+
+                relatorioItens.Cell(2 + aux, 2).FormulaA1 = $"=SUM(B2:B{aux+1})";
+                relatorioItens.Cell(2 + aux, 2).Style.Font.FontColor = XLColor.Yellow;
+                relatorioItens.Cell(2 + aux, 2).Style.Fill.BackgroundColor = XLColor.Red;
+                relatorioItens.Cell(2 + aux, 2).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 2).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 2).Style.Font.SetBold(true);
+
+                relatorioItens.Cell(2 + aux, 3).FormulaA1 = $"=SUM(C2:C{aux + 1})";
+                relatorioItens.Cell(2 + aux, 3).Style.Font.FontColor = XLColor.Yellow;
+                relatorioItens.Cell(2 + aux, 3).Style.Fill.BackgroundColor = XLColor.Red;
+                relatorioItens.Cell(2 + aux, 3).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 3).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+                relatorioItens.Cell(2 + aux, 3).Style.Font.SetBold(true);
                 /*--------------------------------------------------------------------------------------*/
 
                 workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
@@ -186,7 +252,7 @@ namespace artesanatoCapixaba
         private double[] getTotalVendas()
         {
             string select =
-            "SELECT tbl_itensvenda.ValorTotal_Item, tbl_registrovendas.TipoPagamento_Venda, tbl_registrovendas.ValorPrimeiroTipo_Venda, tbl_registrovendas.ValorSegundoTipo_Venda" +
+            "SELECT tbl_registrovendas.Codigo_Venda, tbl_itensvenda.ValorTotal_Item, tbl_registrovendas.TipoPagamento_Venda, tbl_registrovendas.ValorPrimeiroTipo_Venda, tbl_registrovendas.ValorSegundoTipo_Venda" +
             " FROM tbl_produto" +
             " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Produto = tbl_produto.Codigo_Produto" +
             " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao" +
@@ -202,40 +268,48 @@ namespace artesanatoCapixaba
 
             int tipoPagamento = 0;
 
+            int idVendaAntes=0;
+            int idVendaAgora=0;
+
             while (leitor.Read())
             {
+                idVendaAgora = Int32.Parse(leitor["Codigo_Venda"].ToString());
                 tipoPagamento = Int32.Parse(leitor["TipoPagamento_Venda"].ToString());
                 valorTotal[0] += Double.Parse(leitor["ValorTotal_Item"].ToString());
 
-                switch (tipoPagamento)
+                if (idVendaAgora != idVendaAntes)
                 {
-                    //Dinheiro
-                    case 1:
-                        valorTotal[1] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        break;
-                    //CC
-                    case 2:
-                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        break;
-                    //CD
-                    case 3:
-                        valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        break;
-                    //CC + Dinheiro
-                    case 4:
-                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
-                        break;
-                    //CD + Dinheiro
-                    case 5:
-                        valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
-                        break;
-                    //CC + CD
-                    case 6:
-                        valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
-                        valorTotal[3] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
-                        break;
+                    switch (tipoPagamento)
+                    {
+                        //Dinheiro
+                        case 1:
+                            valorTotal[1] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            break;
+                        //CC
+                        case 2:
+                            valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            break;
+                        //CD
+                        case 3:
+                            valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            break;
+                        //CC + Dinheiro
+                        case 4:
+                            valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
+                            break;
+                        //CD + Dinheiro
+                        case 5:
+                            valorTotal[3] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            valorTotal[1] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
+                            break;
+                        //CC + CD
+                        case 6:
+                            valorTotal[2] += Double.Parse(leitor["ValorPrimeiroTipo_Venda"].ToString());
+                            valorTotal[3] += Double.Parse(leitor["ValorSegundoTipo_Venda"].ToString());
+                            break;
+                    }
+                    idVendaAntes = idVendaAgora;
                 }
             }
 

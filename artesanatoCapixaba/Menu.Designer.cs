@@ -138,7 +138,6 @@
             // 
             this.btnFuncionario.BackColor = System.Drawing.Color.CornflowerBlue;
             this.btnFuncionario.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFuncionario.Enabled = false;
             this.btnFuncionario.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFuncionario.Location = new System.Drawing.Point(30, 541);
             this.btnFuncionario.Name = "btnFuncionario";
@@ -146,6 +145,7 @@
             this.btnFuncionario.TabIndex = 5;
             this.btnFuncionario.Text = "F U N C ";
             this.btnFuncionario.UseVisualStyleBackColor = false;
+            this.btnFuncionario.Click += new System.EventHandler(this.btnFuncionario_Click);
             // 
             // boxVendasFuncionarioAtual
             // 

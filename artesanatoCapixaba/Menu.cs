@@ -152,6 +152,12 @@ namespace artesanatoCapixaba
             }
         }
 
+        private void btnFuncionario_Click(object sender, EventArgs e)
+        {
+            Caixa cx = new Caixa();
+            cx.exportarCaixaFinal();
+        }
+
         /****************************************************************/
 
         private void atualizarGridVendas(string select)
