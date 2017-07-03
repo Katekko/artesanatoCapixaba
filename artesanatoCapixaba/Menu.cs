@@ -97,7 +97,7 @@ namespace artesanatoCapixaba
                 Cursor.Current = Cursors.Default;
 
                 functions.messageBOXok("Dados exportados com sucesso!!!");
-          
+
             }
 
         }
@@ -230,9 +230,9 @@ namespace artesanatoCapixaba
             relatorioVendas.Cell("F1").Value = "Data";
 
 
-            for(int i = 0; i < gridVendas.RowCount - 1; i++)
+            for (int i = 0; i < gridVendas.RowCount - 1; i++)
             {
-                relatorioVendas.Cell(2 + i,1).Value = gridVendas.Rows[i].Cells[0].Value.ToString();
+                relatorioVendas.Cell(2 + i, 1).Value = gridVendas.Rows[i].Cells[0].Value.ToString();
                 relatorioVendas.Cell(2 + i, 1).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
                 relatorioVendas.Cell(2 + i, 1).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
@@ -331,7 +331,7 @@ namespace artesanatoCapixaba
             gridVendas.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridVendas.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridVendas.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
-            gridVendas.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;      
+            gridVendas.Columns[5].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
         }
 
@@ -346,7 +346,7 @@ namespace artesanatoCapixaba
 
             if (chkUseData.Checked)
             {
-                auxV += $" AND (tbl_registrovendas.Data_Venda BETWEEN '{functions.configDataSql(dtpVendasDe.Text)} 0:0:0' AND '{functions.configDataSql(dtpVendasAte.Text)} 23:59:59')";             
+                auxV += $" AND (tbl_registrovendas.Data_Venda BETWEEN '{functions.configDataSql(dtpVendasDe.Text)} 0:0:0' AND '{functions.configDataSql(dtpVendasAte.Text)} 23:59:59')";
             }
             return auxV;
         }
