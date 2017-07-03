@@ -92,45 +92,12 @@ namespace artesanatoCapixaba
 
                 Cursor.Current = Cursors.WaitCursor;
 
-                DataTable dt = new DataTable();
+                exportarGrid();
 
-                foreach (DataGridViewColumn column in gridVendas.Columns)
-                {
-                    dt.Columns.Add(column.HeaderText, column.ValueType);
-                }
+                Cursor.Current = Cursors.Default;
 
-                foreach (DataGridViewRow row in gridVendas.Rows)
-                {
-                    dt.Rows.Add();
-                    foreach (DataGridViewCell cell in row.Cells)
-                    {
-                        try
-                        {
-                            dt.Rows[dt.Rows.Count - 1][cell.ColumnIndex] = cell.Value.ToString();
-                        }
-                        catch
-                        {
-                            break;
-                        }
-                    }
-                }
-                using (XLWorkbook wb = new XLWorkbook())
-                {
-                    var ws = wb.Worksheets.Add(dt, $"Relatório de Vendas");
-                    for(int i = 1; i < gridVendas.RowCount + 1; i++)
-                    {
-                        for(int j = 5; j< gridVendas.RowCount; j = j + 4)
-                        {
-                            ws.Cell(i, j).Style.NumberFormat.Format = "R$ #,##0.00";
-                        }
-                    }
-                    
-                    wb.SaveAs(saveFile.FileName.ToString());
-
-                    Cursor.Current = Cursors.Default;
-
-                    functions.messageBOXok("Dados exportados com sucesso!!!");
-                }
+                functions.messageBOXok("Dados exportados com sucesso!!!");
+          
             }
 
         }
@@ -159,6 +126,141 @@ namespace artesanatoCapixaba
         }
 
         /****************************************************************/
+
+        private void exportarGrid()
+        {
+            var workbook = new XLWorkbook();
+            var relatorioVendas = workbook.Worksheets.Add("Relatório de Vendas");
+
+            var col1 = relatorioVendas.Column("A");
+            col1.Width = 16;
+            col1.Style.Font.FontSize = 16;
+            col1.Style.Font.Bold = true;
+            col1.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+            var col2 = relatorioVendas.Column("B");
+            col2.Width = 34;
+            col2.Style.Font.FontSize = 16;
+            col2.Style.Font.Bold = true;
+
+            var col3 = relatorioVendas.Column("C");
+            col3.Width = 15;
+            col3.Style.Font.FontSize = 16;
+            col3.Style.Font.Bold = true;
+
+            var col4 = relatorioVendas.Column("D");
+            col4.Width = 8;
+            col4.Style.Font.FontSize = 16;
+            col4.Style.Font.Bold = true;
+
+            var col5 = relatorioVendas.Column("E");
+            col5.Width = 16;
+            col5.Style.Font.FontSize = 16;
+            col5.Style.Font.Bold = true;
+            col5.Style.NumberFormat.Format = "R$ #,##0.00";
+
+            var col6 = relatorioVendas.Column("F");
+            col6.Width = 26;
+            col6.Style.Font.FontSize = 16;
+            col6.Style.Font.Bold = true;
+
+            var col7 = relatorioVendas.Column("H");
+            col7.Width = 9;
+            col7.Style.Font.FontSize = 16;
+            col7.Style.Font.Bold = true;
+
+            var col8 = relatorioVendas.Column("I");
+            col8.Width = 36;
+            col8.Style.Font.FontSize = 16;
+            col8.Style.Font.Bold = true;
+
+            var range2 = relatorioVendas.Range("A1:F1");
+            range2.Style.Fill.BackgroundColor = XLColor.Yellow;
+            range2.Style.Font.FontColor = XLColor.Red;
+            range2.Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            range2.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            var range3 = relatorioVendas.Range("H1:H2");
+            range3.Style.Fill.BackgroundColor = XLColor.Yellow;
+            range3.Style.Font.FontColor = XLColor.Red;
+            range3.Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            range3.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            var range4 = relatorioVendas.Range("I1:I2");
+            range4.Style.Fill.BackgroundColor = XLColor.Red;
+            range4.Style.Font.FontColor = XLColor.Yellow;
+            range4.Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            range4.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            if (chkUseData.Checked == true)
+            {
+                relatorioVendas.Cell("I3").Value = dtpVendasDe.Text + " Até " + dtpVendasAte.Text;
+            }
+            else
+            {
+                relatorioVendas.Cell("I3").Value = "Todas as vendas registradas";
+            }
+            relatorioVendas.Cell("I3").Style.Fill.BackgroundColor = XLColor.FromArgb(36, 64, 98);
+            relatorioVendas.Cell("I3").Style.Font.FontColor = XLColor.FromArgb(226, 107, 10);
+            relatorioVendas.Cell("I3").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            relatorioVendas.Cell("I3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            relatorioVendas.Cell("H1").Value = "Total:";
+            relatorioVendas.Cell("H1").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            relatorioVendas.Cell("H1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            relatorioVendas.Cell("I1").Value = "R$ " + lblTotalResult.Text;
+            relatorioVendas.Cell("I1").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            relatorioVendas.Cell("I1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            relatorioVendas.Cell("H2").Value = "Itens:";
+            relatorioVendas.Cell("H2").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            relatorioVendas.Cell("H2").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            relatorioVendas.Cell("I2").Value = lblItensVendidosResult.Text;
+            relatorioVendas.Cell("I2").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+            relatorioVendas.Cell("I2").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+            relatorioVendas.Cell("A1").Value = "Venda";
+            relatorioVendas.Cell("B1").Value = "Vendedor";
+            relatorioVendas.Cell("C1").Value = "Produto";
+            relatorioVendas.Cell("D1").Value = "Quant";
+            relatorioVendas.Cell("E1").Value = "Arrecado";
+            relatorioVendas.Cell("F1").Value = "Data";
+
+
+            for(int i = 0; i < gridVendas.RowCount - 1; i++)
+            {
+                relatorioVendas.Cell(2 + i,1).Value = gridVendas.Rows[i].Cells[0].Value.ToString();
+                relatorioVendas.Cell(2 + i, 1).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 1).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                relatorioVendas.Cell(2 + i, 2).Value = gridVendas.Rows[i].Cells[1].Value.ToString();
+                relatorioVendas.Cell(2 + i, 2).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 2).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                relatorioVendas.Cell(2 + i, 3).Value = gridVendas.Rows[i].Cells[2].Value.ToString();
+                relatorioVendas.Cell(2 + i, 3).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 3).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                relatorioVendas.Cell(2 + i, 4).Value = gridVendas.Rows[i].Cells[3].Value.ToString();
+                relatorioVendas.Cell(2 + i, 4).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 4).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                relatorioVendas.Cell(2 + i, 5).Value = Double.Parse(gridVendas.Rows[i].Cells[4].Value.ToString());
+                relatorioVendas.Cell(2 + i, 5).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 5).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+
+                relatorioVendas.Cell(2 + i, 6).Value = gridVendas.Rows[i].Cells[5].Value.ToString();
+                relatorioVendas.Cell(2 + i, 6).Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
+                relatorioVendas.Cell(2 + i, 6).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
+            }
+
+
+
+            workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
+
+        }
 
         private void atualizarGridVendas(string select)
         {
