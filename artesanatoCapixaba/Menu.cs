@@ -200,6 +200,7 @@ namespace artesanatoCapixaba
             {
                 relatorioVendas.Cell("I3").Value = "Todas as vendas registradas";
             }
+
             relatorioVendas.Cell("I3").Style.Fill.BackgroundColor = XLColor.FromArgb(36, 64, 98);
             relatorioVendas.Cell("I3").Style.Font.FontColor = XLColor.FromArgb(226, 107, 10);
             relatorioVendas.Cell("I3").Style.Border.SetInsideBorder(XLBorderStyleValues.Thin);
