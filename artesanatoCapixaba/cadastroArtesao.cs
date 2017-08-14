@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -62,18 +63,18 @@ namespace artesanatoCapixaba
 
         private void txtCod_LostFocus(object sender, System.EventArgs e)
         {
-            if(checkExistInDB(txtCod.Text.ToString(), "", "")) txtCod.Focus();
+            if(checkExistInDB(txtCod.Text.ToString(), "xyz", "xyz")) txtCod.Focus();
         }
 
         private void txtCPF_LostFocus(object sender, System.EventArgs e)
         {
             if (formArtesaoEditar == null)
             {
-                if (checkExistInDB("", txtCpf.Text.ToString(), "")) txtCpf.Focus();
+                if (checkExistInDB("xyz", txtCpf.Text.ToString(), "xyz")) txtCpf.Focus();
             }
             else
             {
-                if (checkExistInDB(txtCod.Text.ToString(), txtCpf.Text.ToString(), "")) txtCpf.Focus();
+                if (checkExistInDB(txtCod.Text.ToString(), txtCpf.Text.ToString(), "xyz")) txtCpf.Focus();
             }
         }
 
@@ -118,23 +119,23 @@ namespace artesanatoCapixaba
 
         public static bool checkExistInDB(string ID_Artesao, string CPF_Artesao, string NunSICAB_Artesao)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query;
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query;
 
             if (formArtesaoEditar == null)
             {
-                query = new MySqlCommand($"SELECT ID_Artesao, CPF_Artesao, NunSICAB_Artesao FROM tbl_artesao WHERE ID_Artesao = '{ID_Artesao}' OR CPF_Artesao = '{CPF_Artesao}' OR NunSICAB_Artesao = '{NunSICAB_Artesao}'", con);
+                query = new SqlCommand($"SELECT ID_Artesao, CPF_Artesao, NunSICAB_Artesao FROM tbl_artesao WHERE ID_Artesao = '{ID_Artesao}' OR CPF_Artesao = '{CPF_Artesao}' OR NunSICAB_Artesao = '{NunSICAB_Artesao}'", con);
             }
             else
             {
-                query = new MySqlCommand($"SELECT ID_Artesao, CPF_Artesao, NunSICAB_Artesao FROM tbl_artesao WHERE (CPF_Artesao = '{CPF_Artesao}' OR NunSICAB_Artesao = '{NunSICAB_Artesao}') AND ID_Artesao != '{ID_Artesao}' ", con);
+                query = new SqlCommand($"SELECT ID_Artesao, CPF_Artesao, NunSICAB_Artesao FROM tbl_artesao WHERE (CPF_Artesao = '{CPF_Artesao}' OR NunSICAB_Artesao = '{NunSICAB_Artesao}') AND ID_Artesao != '{ID_Artesao}' ", con);
             }
 
             var leitor = query.ExecuteReader();
 
             if (leitor.HasRows)
             {
-                if (ID_Artesao != "")
+                if (ID_Artesao != "xyz")
                 {
                     functions.messageBOXwarning("Codigo do artesão já cadastrado! Escolha outro.");
 
@@ -143,7 +144,7 @@ namespace artesanatoCapixaba
 
                     return true;
                 }
-                else if (CPF_Artesao != "")
+                else if (CPF_Artesao != "xyz")
                 {
                     functions.messageBOXwarning("CPF já cadastrado! Escolha outro.");
 
@@ -152,7 +153,7 @@ namespace artesanatoCapixaba
 
                     return true;
                 }
-                else if (NunSICAB_Artesao != "")
+                else if (NunSICAB_Artesao != "xyz")
                 {
                     functions.messageBOXwarning("Numero SICAB já cadastrado! Escolha outro.");
 

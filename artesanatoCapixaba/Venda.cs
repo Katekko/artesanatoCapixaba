@@ -1,6 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -176,8 +177,8 @@ namespace artesanatoCapixaba
 
         private bool checkEstoque(string codProduto, int quantidade)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT Quantidade_Estoque FROM tbl_estoque WHERE Codigo_Produto = '{codProduto}'", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT Quantidade_Estoque FROM tbl_estoque WHERE Codigo_Produto = '{codProduto}'", con);
             var leitor = query.ExecuteReader();
             leitor.Read();
 
@@ -202,8 +203,8 @@ namespace artesanatoCapixaba
 
         private List<int> getQuantProd(int codigoVenda)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT Quantidade_Produto FROM tbl_itensvenda WHERE Codigo_Venda = {codigoVenda}", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT Quantidade_Produto FROM tbl_itensvenda WHERE Codigo_Venda = {codigoVenda}", con);
             var leitor = query.ExecuteReader();
             List<int> listaQuantProd = new List<int>();
 
@@ -220,8 +221,8 @@ namespace artesanatoCapixaba
 
         private List<string> getCodProd(int codigoVenda)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT Codigo_Produto FROM tbl_itensvenda WHERE Codigo_Venda = {codigoVenda}", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT Codigo_Produto FROM tbl_itensvenda WHERE Codigo_Venda = {codigoVenda}", con);
             var leitor = query.ExecuteReader();
             List<string> listaCodProd = new List<string>();
 
@@ -238,14 +239,26 @@ namespace artesanatoCapixaba
 
         private int getCodVenda()
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand("SELECT Codigo_Venda FROM tbl_registrovendas ORDER BY Codigo_Venda DESC LIMIT 1", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand("SELECT TOP 1 Codigo_Venda FROM tbl_registrovendas ORDER BY Codigo_Venda DESC", con);
             var leitor = query.ExecuteReader();
             leitor.Read();
             int codigoVenda = Int32.Parse(leitor["Codigo_Venda"].ToString());
             leitor.Close();
             con.Close();  
             return codigoVenda;
+        }
+
+        private int getIndexVenda()
+        {
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand("SELECT TOP 1 Index_Venda FROM tbl_itensvenda ORDER BY Index_Venda DESC", con);
+            var leitor = query.ExecuteReader();
+            leitor.Read();
+            int IndexVenda = Int32.Parse(leitor["Index_Venda"].ToString());
+            leitor.Close();
+            con.Close();
+            return IndexVenda;
         }
 
         private bool addItensNaVenda(int codVenda)
@@ -278,8 +291,9 @@ namespace artesanatoCapixaba
                         valorLoja = valorNovoItem * 0.3;
                         valorArtesao = valorNovoItem * 0.7;
                     }
-                    
-                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda (Codigo_Venda, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, ValorArtesao_Item, ValorLoja_Item, Desconto_Item) VALUES ({codVenda}, '{codProduto}', {quantItem}, '{valorNovoItem}', {valorArtesao.ToString().Replace(',', '.')}, {valorLoja.ToString().Replace(',','.')}, {descontoItem.ToString().Replace(',', '.')})");
+
+                    getCodVenda();
+                    functions.updateChangeDeleteDatabase($"INSERT INTO tbl_itensvenda (Index_Venda, Codigo_Venda, Codigo_Produto, Quantidade_Produto, ValorTotal_Item, ValorArtesao_Item, ValorLoja_Item, Desconto_Item) VALUES ({getIndexVenda() + 1}, {codVenda}, '{codProduto}', {quantItem}, '{valorNovoItem}', {valorArtesao.ToString().Replace(',', '.')}, {valorLoja.ToString().Replace(',','.')}, {descontoItem.ToString().Replace(',', '.')})");
                 }
             }
 
@@ -334,9 +348,9 @@ namespace artesanatoCapixaba
 
         private double getTotalValor()
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{txtCodProd.Text}'", con);
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{txtCodProd.Text}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -419,9 +433,9 @@ namespace artesanatoCapixaba
 
         private bool ProdutoExist(TextBox txtbox)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{txtbox.Text}'", con);
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{txtbox.Text}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -442,9 +456,9 @@ namespace artesanatoCapixaba
 
         private bool ProdutoExistEstoque(TextBox txtbox)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_estoque WHERE Codigo_Produto = '{txtbox.Text}'", con);
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_estoque WHERE Codigo_Produto = '{txtbox.Text}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -489,12 +503,14 @@ namespace artesanatoCapixaba
 
                 Double.TryParse(valorRecebido2, out valorSegundaOpcao);
 
+                 int codVendaAnterior = getCodVenda();
+
                 switch (tipoPagamento)
                 {
                     case 4:
                     case 5:
                     case 6:
-                        if (insertRegistroVendas(codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.'), valorSegundaOpcao.ToString().Replace(',', '.')))
+                        if (insertRegistroVendas(codVendaAnterior + 1,codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.'), valorSegundaOpcao.ToString().Replace(',', '.')))
                         {
                             valorTotal = "";
                             valorRecebido1 = "";
@@ -503,7 +519,7 @@ namespace artesanatoCapixaba
                         }
                         break;
                     default:
-                        if (insertRegistroVendas(codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.')))
+                        if (insertRegistroVendas(codVendaAnterior + 1, codigoVendedor, valorTotal.ToString().Replace(',', '.'), tipoPagamento, data, valorPrimeiraOpcao.ToString().Replace(',', '.')))
                         {
                             valorTotal = "";
                             valorRecebido1 = "";
@@ -550,9 +566,9 @@ namespace artesanatoCapixaba
             return true;
         }
 
-        private bool insertRegistroVendas(int codigoVendedor, string valorArrecadado, int tipoPagamento, string dataVenda, string valorPrimeiraOpcao, string valorSegundaOpcao = "0")
+        private bool insertRegistroVendas(int codigoVenda,int codigoVendedor, string valorArrecadado, int tipoPagamento, string dataVenda, string valorPrimeiraOpcao, string valorSegundaOpcao = "0")
         {
-            if(functions.updateChangeDeleteDatabase($"INSERT INTO tbl_registrovendas  ( Codigo_Vendedor, Codigo_ResponsavelCaixa, ValorArrecadado_Venda, TipoPagamento_Venda, Data_Venda, ValorPrimeiroTipo_Venda, ValorSegundoTipo_Venda) VALUES ( {codigoVendedor}, {functions.getIDusuarioAtual()}, '{valorArrecadado}',  {tipoPagamento},  '{dataVenda}', {valorPrimeiraOpcao}, {valorSegundaOpcao})"))
+            if(functions.updateChangeDeleteDatabase($"INSERT INTO tbl_registrovendas  (Codigo_Venda, Codigo_Vendedor, Codigo_ResponsavelCaixa, ValorArrecadado_Venda, TipoPagamento_Venda, Data_Venda, ValorPrimeiroTipo_Venda, ValorSegundoTipo_Venda) VALUES ({codigoVenda}, {codigoVendedor}, {functions.getIDusuarioAtual()}, '{valorArrecadado}',  {tipoPagamento},  '{dataVenda}', {valorPrimeiraOpcao}, {valorSegundaOpcao})"))
             {
                 return true;
             }
@@ -582,9 +598,9 @@ namespace artesanatoCapixaba
 
         private int getIdVendedor(string NomeVendedor)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT Codigo_Vendedor FROM tbl_vendedor WHERE Nome_Vendedor = '{NomeVendedor}'", con);
+            SqlCommand query = new SqlCommand($"SELECT Codigo_Vendedor FROM tbl_vendedor WHERE Nome_Vendedor = '{NomeVendedor}'", con);
 
             int codVendedor = 0;
 

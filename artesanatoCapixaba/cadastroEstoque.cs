@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -104,8 +105,8 @@ namespace artesanatoCapixaba
 
         private bool changeEstoqueDatabase(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand(select, con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand(select, con);
 
             try
             {
@@ -149,9 +150,9 @@ namespace artesanatoCapixaba
 
         private bool checkCodProdutoExistAndIsFirst(TextBox txtbox)
         {
-            MySqlConnection con = functions.connectionSQL();         
+            SqlConnection con = functions.connectionSQL();         
 
-            MySqlCommand query = new MySqlCommand($"SELECT Codigo_Produto FROM tbl_produto WHERE Codigo_Produto = '{txtbox.Text}'", con);
+            SqlCommand query = new SqlCommand($"SELECT Codigo_Produto FROM tbl_produto WHERE Codigo_Produto = '{txtbox.Text}'", con);
 
             var leitor = query.ExecuteReader();
             
@@ -173,8 +174,8 @@ namespace artesanatoCapixaba
             }
             
 
-            MySqlConnection con2 = functions.connectionSQL();
-            MySqlCommand query2 = new MySqlCommand($"SELECT Codigo_Produto FROM tbl_estoque WHERE Codigo_Produto = '{txtbox.Text}'", con2);
+            SqlConnection con2 = functions.connectionSQL();
+            SqlCommand query2 = new SqlCommand($"SELECT Codigo_Produto FROM tbl_estoque WHERE Codigo_Produto = '{txtbox.Text}'", con2);
             var leitor2 = query2.ExecuteReader();
 
             //se o produto já existe no estoque

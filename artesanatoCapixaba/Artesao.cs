@@ -1,6 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace artesanatoCapixaba
@@ -18,14 +19,16 @@ namespace artesanatoCapixaba
         private void btnCadastrarArtesao_Click(object sender, EventArgs e)
         {
             cadastroArtesao cadArtesao = new cadastroArtesao();
+            functions.configForm(cadArtesao);
             cadArtesao.ShowDialog();
             atualizarGridArtesao("SELECT * FROM tbl_artesao");
         }
 
-        private void btnLimpar_Click(object sender, EventArgs e)
+        private void btnConfirmarPagamento_Click(object sender, EventArgs e)
         {
-            clearTxt();
-            txtCod.Focus();
+            Pagamento fPagamento = new Pagamento();
+            functions.configForm(fPagamento);
+            fPagamento.ShowDialog();
         }
 
         private void KeyPressOnlyNumb(object sender, KeyPressEventArgs e)
@@ -60,6 +63,7 @@ namespace artesanatoCapixaba
             if (gridArtesao.SelectedRows.Count > 0)
             {
                 cadastroArtesao formCadArtesao = new cadastroArtesao(this);
+                functions.configForm(formCadArtesao);
                 formCadArtesao.ShowDialog();
                 atualizarGridArtesao("SELECT * FROM tbl_artesao");
             }
@@ -111,12 +115,12 @@ namespace artesanatoCapixaba
 
         public void fillGridArtesao(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand(select , con);
-                MySqlDataAdapter da = new MySqlDataAdapter(query);
+                SqlCommand query = new SqlCommand(select , con);
+                SqlDataAdapter da = new SqlDataAdapter(query);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
 
@@ -227,8 +231,8 @@ namespace artesanatoCapixaba
 
         private int getQuantItensCad(string ID)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Artesao = {ID}",con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Artesao = {ID}",con);
             var leitor = query.ExecuteReader();
             int cont = 0;
             while (leitor.Read())
@@ -242,8 +246,8 @@ namespace artesanatoCapixaba
 
         private int getQuantItensCadEstoque(string ID)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_estoque WHERE Codigo_Produto LIKE '{ID}%'",con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_estoque WHERE Codigo_Produto LIKE '{ID}%'",con);
             var leitor = query.ExecuteReader();
             int cont = 0;
             while (leitor.Read())

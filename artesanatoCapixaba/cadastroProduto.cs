@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -44,8 +45,8 @@ namespace artesanatoCapixaba
 
 
             string tipoProduto = "";
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{codigoFinal}'", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_produto WHERE Codigo_Produto = '{codigoFinal}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -164,13 +165,13 @@ namespace artesanatoCapixaba
 
         private void cmbTipo_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand($"SELECT Sigla_TipoProduto FROM tbl_tipoproduto WHERE Nome_TipoProduto = '{cmbTipo.GetItemText(cmbTipo.SelectedItem)}'", con);
+                SqlCommand query = new SqlCommand($"SELECT Sigla_TipoProduto FROM tbl_tipoproduto WHERE Nome_TipoProduto = '{cmbTipo.GetItemText(cmbTipo.SelectedItem)}'", con);
 
-                MySqlDataReader leitor = query.ExecuteReader();
+                SqlDataReader leitor = query.ExecuteReader();
 
                 if(!leitor.HasRows) txtSigla.Text = "";
 
@@ -243,8 +244,8 @@ namespace artesanatoCapixaba
         private bool insertTableProdutos(string codFinal, int codArtesao, string tipoProduto, string siglaProduto, int numeroProduto, string precoProduto)
         {
         
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"INSERT INTO tbl_Produto (Codigo_Produto, Codigo_Artesao, SiglaTipoProduto_Produto, Numero_Produto, TipoProduto_Produto, Preco_Produto) VALUES ('{codFinal}', {codArtesao}, '{siglaProduto}', {numeroProduto}, '{tipoProduto}', '{precoProduto}')", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"INSERT INTO tbl_Produto (Codigo_Produto, Codigo_Artesao, SiglaTipoProduto_Produto, Numero_Produto, TipoProduto_Produto, Preco_Produto) VALUES ('{codFinal}', {codArtesao}, '{siglaProduto}', {numeroProduto}, '{tipoProduto}', '{precoProduto}')", con);
 
             try
             {
@@ -252,7 +253,7 @@ namespace artesanatoCapixaba
                 con.Close();
                 return true;
             }
-            catch(MySql.Data.MySqlClient.MySqlException ex)
+            catch(Exception ex)
             {
                 functions.messageBOXerror("Erro na query: " + ex);
                 con.Close();
@@ -268,9 +269,9 @@ namespace artesanatoCapixaba
 
         private bool checkArtesaoExist(TextBox txtbox)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT * FROM tbl_Artesao WHERE ID_Artesao = '{txtbox.Text}'", con);
+            SqlCommand query = new SqlCommand($"SELECT * FROM tbl_Artesao WHERE ID_Artesao = '{txtbox.Text}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -293,16 +294,16 @@ namespace artesanatoCapixaba
 
         private bool checkProdutoExist(string codProduto)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query;
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query;
 
             if (formProduto == null)
             {
-                query = new MySqlCommand($"SELECT * FROM tbl_Produto WHERE Codigo_Produto = '{codProduto}'", con);
+                query = new SqlCommand($"SELECT * FROM tbl_Produto WHERE Codigo_Produto = '{codProduto}'", con);
             }
             else
             {
-                query = new MySqlCommand($"SELECT * FROM tbl_Produto WHERE Codigo_Produto = '{codProduto}' AND Codigo_Produto != '{codigoFinalAntigo}'", con);
+                query = new SqlCommand($"SELECT * FROM tbl_Produto WHERE Codigo_Produto = '{codProduto}' AND Codigo_Produto != '{codigoFinalAntigo}'", con);
             }
 
             var leitor = query.ExecuteReader();

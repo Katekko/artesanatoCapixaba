@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
-using MySql.Data.MySqlClient;
+
 using System;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -181,8 +182,8 @@ namespace artesanatoCapixaba
                    " INNER JOIN tbl_registrovendas ON tbl_registrovendas.Codigo_Venda = tbl_itensvenda.Codigo_Venda" +
                    $" WHERE tbl_registrovendas.Data_Venda BETWEEN '{functions.configDataSql(DateTime.Now.ToShortDateString())} 00:00:00' AND '{functions.configDataSql(DateTime.Now.ToShortDateString())} 23:59:59';";
 
-                MySqlConnection con = functions.connectionSQL();
-                MySqlCommand query = new MySqlCommand(select, con);
+                SqlConnection con = functions.connectionSQL();
+                SqlCommand query = new SqlCommand(select, con);
 
                 var leitor = query.ExecuteReader();
                 int aux = 0;
@@ -259,8 +260,8 @@ namespace artesanatoCapixaba
             " INNER JOIN tbl_registrovendas ON tbl_registrovendas.Codigo_Venda = tbl_itensvenda.Codigo_Venda" +
             $" WHERE tbl_registrovendas.Data_Venda BETWEEN '{functions.configDataSql(DateTime.Now.ToShortDateString())} 00:00:00' AND '{functions.configDataSql(DateTime.Now.ToShortDateString())} 23:59:59';";
 
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand(select,con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand(select,con);
 
             var leitor = query.ExecuteReader();
 

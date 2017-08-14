@@ -1,6 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace artesanatoCapixaba
@@ -153,12 +154,12 @@ namespace artesanatoCapixaba
 
         public void fillGridProduto(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand(select, con);
-                MySqlDataAdapter da = new MySqlDataAdapter(query);
+                SqlCommand query = new SqlCommand(select, con);
+                SqlDataAdapter da = new SqlDataAdapter(query);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
 

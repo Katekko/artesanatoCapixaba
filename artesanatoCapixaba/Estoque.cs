@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -72,12 +73,12 @@ namespace artesanatoCapixaba
 
         public void fillGridEstoque(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand(select, con);
-                MySqlDataAdapter da = new MySqlDataAdapter(query);
+                SqlCommand query = new SqlCommand(select, con);
+                SqlDataAdapter da = new SqlDataAdapter(query);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
 

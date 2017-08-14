@@ -1,8 +1,9 @@
-﻿using MySql.Data.MySqlClient;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -101,9 +102,9 @@ namespace artesanatoCapixaba
         {
             try
             {
-                MySqlConnection con = functions.connectionSQL();
+                SqlConnection con = functions.connectionSQL();
 
-                MySqlCommand query = new MySqlCommand($"INSERT INTO tbl_tipoproduto VALUES ('{sigla}', '{tipoProduto}')", con);
+                SqlCommand query = new SqlCommand($"INSERT INTO tbl_tipoproduto VALUES ('{sigla}', '{tipoProduto}')", con);
 
                 query.ExecuteNonQuery();
 
@@ -121,9 +122,9 @@ namespace artesanatoCapixaba
 
         public static bool checkExistInDB(string Sigla, string tipoProduto)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
-            MySqlCommand query = new MySqlCommand($"SELECT Sigla_TipoProduto, Nome_TipoProduto FROM tbl_tipoProduto WHERE Sigla_TipoProduto = '{Sigla}' OR Nome_TipoProduto = '{tipoProduto}'", con);
+            SqlCommand query = new SqlCommand($"SELECT Sigla_TipoProduto, Nome_TipoProduto FROM tbl_tipoProduto WHERE Sigla_TipoProduto = '{Sigla}' OR Nome_TipoProduto = '{tipoProduto}'", con);
 
             var leitor = query.ExecuteReader();
 
@@ -168,12 +169,12 @@ namespace artesanatoCapixaba
 
         public void fillGridTipoProduto(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand(select, con);
-                MySqlDataAdapter da = new MySqlDataAdapter(query);
+                SqlCommand query = new SqlCommand(select, con);
+                SqlDataAdapter da = new SqlDataAdapter(query);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
 

@@ -32,10 +32,11 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.gridArtesao = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnRelatorio = new System.Windows.Forms.Button();
             this.btnDeletar = new System.Windows.Forms.Button();
             this.btnCadastrarArtesao = new System.Windows.Forms.Button();
             this.lblEditar = new System.Windows.Forms.Button();
-            this.btnLimpar = new System.Windows.Forms.Button();
+            this.btnConfirmarPagamento = new System.Windows.Forms.Button();
             this.btnPesquisar = new System.Windows.Forms.Button();
             this.txtTecnica = new System.Windows.Forms.TextBox();
             this.lblTecnica = new System.Windows.Forms.Label();
@@ -51,7 +52,6 @@
             this.lblNome = new System.Windows.Forms.Label();
             this.txtCod = new System.Windows.Forms.TextBox();
             this.lblCod = new System.Windows.Forms.Label();
-            this.btnRelatorio = new System.Windows.Forms.Button();
             this.boxContent.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridArtesao)).BeginInit();
@@ -95,7 +95,7 @@
             this.groupBox1.Controls.Add(this.btnDeletar);
             this.groupBox1.Controls.Add(this.btnCadastrarArtesao);
             this.groupBox1.Controls.Add(this.lblEditar);
-            this.groupBox1.Controls.Add(this.btnLimpar);
+            this.groupBox1.Controls.Add(this.btnConfirmarPagamento);
             this.groupBox1.Controls.Add(this.btnPesquisar);
             this.groupBox1.Controls.Add(this.txtTecnica);
             this.groupBox1.Controls.Add(this.lblTecnica);
@@ -118,6 +118,18 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtro";
+            // 
+            // btnRelatorio
+            // 
+            this.btnRelatorio.BackColor = System.Drawing.Color.Gold;
+            this.btnRelatorio.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRelatorio.Location = new System.Drawing.Point(542, 28);
+            this.btnRelatorio.Name = "btnRelatorio";
+            this.btnRelatorio.Size = new System.Drawing.Size(169, 62);
+            this.btnRelatorio.TabIndex = 5;
+            this.btnRelatorio.Text = "R E L A T Ó R I O";
+            this.btnRelatorio.UseVisualStyleBackColor = false;
+            this.btnRelatorio.Click += new System.EventHandler(this.btnRelatorio_Click);
             // 
             // btnDeletar
             // 
@@ -155,17 +167,17 @@
             this.lblEditar.UseVisualStyleBackColor = false;
             this.lblEditar.Click += new System.EventHandler(this.lblEditar_Click);
             // 
-            // btnLimpar
+            // btnConfirmarPagamento
             // 
-            this.btnLimpar.BackColor = System.Drawing.Color.Firebrick;
-            this.btnLimpar.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLimpar.Location = new System.Drawing.Point(542, 25);
-            this.btnLimpar.Name = "btnLimpar";
-            this.btnLimpar.Size = new System.Drawing.Size(169, 62);
-            this.btnLimpar.TabIndex = 4;
-            this.btnLimpar.Text = "L I M P A R";
-            this.btnLimpar.UseVisualStyleBackColor = false;
-            this.btnLimpar.Click += new System.EventHandler(this.btnLimpar_Click);
+            this.btnConfirmarPagamento.BackColor = System.Drawing.Color.OrangeRed;
+            this.btnConfirmarPagamento.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnConfirmarPagamento.Location = new System.Drawing.Point(542, 104);
+            this.btnConfirmarPagamento.Name = "btnConfirmarPagamento";
+            this.btnConfirmarPagamento.Size = new System.Drawing.Size(169, 62);
+            this.btnConfirmarPagamento.TabIndex = 4;
+            this.btnConfirmarPagamento.Text = "CONFIRMAR PAGAMENTO";
+            this.btnConfirmarPagamento.UseVisualStyleBackColor = false;
+            this.btnConfirmarPagamento.Click += new System.EventHandler(this.btnConfirmarPagamento_Click);
             // 
             // btnPesquisar
             // 
@@ -300,18 +312,6 @@
             this.lblCod.TabIndex = 0;
             this.lblCod.Text = "Código:";
             // 
-            // btnRelatorio
-            // 
-            this.btnRelatorio.BackColor = System.Drawing.Color.Gold;
-            this.btnRelatorio.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRelatorio.Location = new System.Drawing.Point(542, 104);
-            this.btnRelatorio.Name = "btnRelatorio";
-            this.btnRelatorio.Size = new System.Drawing.Size(169, 62);
-            this.btnRelatorio.TabIndex = 5;
-            this.btnRelatorio.Text = "R E L A T Ó R I O";
-            this.btnRelatorio.UseVisualStyleBackColor = false;
-            this.btnRelatorio.Click += new System.EventHandler(this.btnRelatorio_Click);
-            // 
             // Artesao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -344,7 +344,7 @@
         private System.Windows.Forms.TextBox txtMatPrima;
         private System.Windows.Forms.Label lblMatPrima;
         private System.Windows.Forms.Button lblEditar;
-        private System.Windows.Forms.Button btnLimpar;
+        private System.Windows.Forms.Button btnConfirmarPagamento;
         private System.Windows.Forms.TextBox txtTecnica;
         private System.Windows.Forms.Label lblTecnica;
         private System.Windows.Forms.TextBox txtCPF;

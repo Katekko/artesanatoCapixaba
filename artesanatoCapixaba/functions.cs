@@ -1,19 +1,15 @@
 ﻿using System;
-using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 using System.Data;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace artesanatoCapixaba
 {
     class functions
     {
-        private static string server = "localhost";
-        private static string database = "db_artesanatocapixaba";
-        private static string uid = "root";
-        private static string password = "102030";
-        private static string connString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
-        private static MySqlConnection connection = new MySqlConnection(connString);
+        private static SqlConnection connection = new SqlConnection(ConfigurationManager.AppSettings["connString"]);
 
         private static string usuarioAtual;
 
@@ -27,8 +23,8 @@ namespace artesanatoCapixaba
 
         public static int getIDusuarioAtual()
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT ID_Usuario FROM tbl_Usuario WHERE Nome_Usuario = '{getUsuarioAtual()}'", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT ID_Usuario FROM tbl_Usuario WHERE Nome_Usuario = '{getUsuarioAtual()}'", con);
             var leitor = query.ExecuteReader();
             int idUSU = 0;
             while (leitor.Read())
@@ -47,18 +43,20 @@ namespace artesanatoCapixaba
             usuarioAtual = USUATUAL;
         }
 
-        public static MySqlConnection connectionSQL()
+        public static SqlConnection connectionSQL()
         {
             try
             {
                 connection.Open();
             }
-            catch
+            catch(Exception ex)
             {
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
                     connection.Close();
                 }
+
+                messageBOXerror(ex.ToString());
             }
 
             return connection;
@@ -160,12 +158,12 @@ namespace artesanatoCapixaba
 
         public static void fillCmb(string select, string nomeColuna, ComboBox combobox)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand(select, con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand(select, con);
 
             try
             {
-                MySqlDataReader leitor = query.ExecuteReader();
+                SqlDataReader leitor = query.ExecuteReader();
 
                 combobox.Items.Clear();
 
@@ -216,9 +214,9 @@ namespace artesanatoCapixaba
         public static bool updateChangeDeleteDatabase(string querys)
         {
 
-            MySqlConnection con = connectionSQL();
+            SqlConnection con = connectionSQL();
 
-            MySqlCommand query = new MySqlCommand(querys, con);
+            SqlCommand query = new SqlCommand(querys, con);
 
             try
             {
@@ -226,7 +224,7 @@ namespace artesanatoCapixaba
                 con.Close();
                 return true;
             }
-            catch (MySql.Data.MySqlClient.MySqlException ex)
+            catch (Exception ex)
             {
                 functions.messageBOXerror(ex.Message);
                 con.Close();
@@ -236,8 +234,8 @@ namespace artesanatoCapixaba
 
         public static int getNewValueToQuant(int opcao, int valor, string codProduto)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT Quantidade_Estoque FROM tbl_estoque WHERE Codigo_Produto = '{codProduto}'", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT Quantidade_Estoque FROM tbl_estoque WHERE Codigo_Produto = '{codProduto}'", con);
             var leitor = query.ExecuteReader();
 
             int quantidadeAntiga = 0;
@@ -303,12 +301,12 @@ namespace artesanatoCapixaba
 
         public static void fillGridFromSelect(string select, DataGridView grid)
         {
-            MySqlConnection con = functions.connectionSQL();
+            SqlConnection con = functions.connectionSQL();
 
             try
             {
-                MySqlCommand query = new MySqlCommand(select, con);
-                MySqlDataAdapter da = new MySqlDataAdapter(query);
+                SqlCommand query = new SqlCommand(select, con);
+                SqlDataAdapter da = new SqlDataAdapter(query);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
 
@@ -350,8 +348,8 @@ namespace artesanatoCapixaba
 
         public static int getArtesao(string codProduto)
         {
-            MySqlConnection con = connectionSQL();
-            MySqlCommand query = new MySqlCommand($"SELECT Codigo_Artesao FROM tbl_produto WHERE Codigo_Produto = '{codProduto}'",con);
+            SqlConnection con = connectionSQL();
+            SqlCommand query = new SqlCommand($"SELECT Codigo_Artesao FROM tbl_produto WHERE Codigo_Produto = '{codProduto}'",con);
             var leitor = query.ExecuteReader();
 
             leitor.Read();

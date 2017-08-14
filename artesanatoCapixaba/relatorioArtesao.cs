@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
-using MySql.Data.MySqlClient;
+
 using System;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
@@ -61,8 +62,8 @@ namespace artesanatoCapixaba
             {
                 txtCodArtesao.BackColor = Color.Chartreuse;
 
-                MySqlConnection con = functions.connectionSQL();
-                MySqlCommand query = new MySqlCommand($"SELECT Nome_Artesao FROM tbl_artesao WHERE ID_Artesao = '{txtCodArtesao.Text}'", con);
+                SqlConnection con = functions.connectionSQL();
+                SqlCommand query = new SqlCommand($"SELECT Nome_Artesao FROM tbl_artesao WHERE ID_Artesao = '{txtCodArtesao.Text}'", con);
 
                 var leitor = query.ExecuteReader();
 
@@ -121,8 +122,8 @@ namespace artesanatoCapixaba
         {
             
 
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand(select,con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand(select,con);
 
             var leitor = query.ExecuteReader();
 
@@ -184,10 +185,10 @@ namespace artesanatoCapixaba
 
         private bool checkExistArtesao(string ID_Artesao)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query;
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query;
 
-            query = new MySqlCommand($"SELECT ID_Artesao FROM tbl_artesao WHERE ID_Artesao = '{ID_Artesao}'", con);
+            query = new SqlCommand($"SELECT ID_Artesao FROM tbl_artesao WHERE ID_Artesao = '{ID_Artesao}'", con);
 
 
             var leitor = query.ExecuteReader();

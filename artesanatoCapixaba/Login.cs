@@ -1,5 +1,4 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -12,7 +11,7 @@ namespace artesanatoCapixaba
         private string senha;
 
 
-        private MySqlConnection connection;
+        private SqlConnection connection;
 
         public Login()
         {
@@ -25,7 +24,7 @@ namespace artesanatoCapixaba
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            connection = functions.connectionSQL(); ;
+            connection = functions.connectionSQL();
 
             if (checkLogin())
             {
@@ -45,9 +44,6 @@ namespace artesanatoCapixaba
                 txtLogin.Focus();
                 clearTxt();
             }
-
-            
-            
         }
 
         private bool checkLogin()
@@ -56,7 +52,7 @@ namespace artesanatoCapixaba
             this.login = txtLogin.Text.ToString().ToLower();
             this.senha = txtSenha.Text.ToString().ToLower();
 
-            MySqlCommand query = new MySqlCommand("SELECT Nome_Usuario, Senha_Usuario FROM tbl_Usuario;", connection);
+            SqlCommand query = new SqlCommand("SELECT Nome_Usuario, Senha_Usuario FROM tbl_Usuario;", connection);
 
             var leitor = query.ExecuteReader();
 

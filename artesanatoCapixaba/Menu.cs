@@ -2,9 +2,10 @@
 using System.Windows.Forms;
 using System.Data;
 using ClosedXML.Excel;
-using MySql.Data.MySqlClient;
+
 using System.Collections.Generic;
 using System.Drawing;
+using System.Data.SqlClient;
 
 namespace artesanatoCapixaba
 {
@@ -271,8 +272,8 @@ namespace artesanatoCapixaba
 
         private void fillGridVendas(string select)
         {
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand(select, con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand(select, con);
 
             var leitor = query.ExecuteReader();
 
@@ -356,8 +357,8 @@ namespace artesanatoCapixaba
             List<double> listaArtesao = new List<double>();
             List<double> listaLoja = new List<double>();
 
-            MySqlConnection con = functions.connectionSQL();
-            MySqlCommand query = new MySqlCommand("SELECT ValorTotal_Item FROM tbl_itensvenda", con);
+            SqlConnection con = functions.connectionSQL();
+            SqlCommand query = new SqlCommand("SELECT ValorTotal_Item FROM tbl_itensvenda", con);
             var leitor = query.ExecuteReader();
 
             int i = 0;
