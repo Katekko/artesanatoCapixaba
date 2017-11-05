@@ -1,6 +1,7 @@
 ﻿using ClosedXML.Excel;
 
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,6 +11,24 @@ namespace artesanatoCapixaba
 {
     public partial class relatorioArtesao : Form
     {
+        private class Item
+        {
+            private string name;
+
+            public string Name { get => name; set => name = value; }
+
+            private int quantidade;
+
+            public int Quantidade { get => quantidade; set => quantidade = value; }
+
+            private float valorUnitario;
+
+            public float ValorUnitario { get => valorUnitario; set => valorUnitario = value; }
+
+            private float valorTotal;
+
+            public float ValorTotal { get => valorTotal; set => valorTotal = value; }
+        }
 
         private string selectGridArtesaoItens =
             "SELECT tbl_itensvenda.Codigo_Produto, tbl_itensvenda.Quantidade_Produto, tbl_itensvenda.ValorTotal_Item , tbl_itensvenda.ValorArtesao_Item" +
@@ -20,6 +39,8 @@ namespace artesanatoCapixaba
 
         int contQuantidade = 0;
         double contValor = 0;
+
+        Dictionary<string, Item> dicItems = new Dictionary<string, Item>();
 
         public relatorioArtesao()
         {
@@ -85,7 +106,7 @@ namespace artesanatoCapixaba
         {
             if (checkToExport())
             {
-                exportGridArtesao();
+                exportGridArtesao2();
             }
         }
 
@@ -200,6 +221,144 @@ namespace artesanatoCapixaba
             }
             con.Close();
             return false;
+        }
+
+        private void exportGridArtesao2()
+        {
+            if (saveFile.ShowDialog() != DialogResult.Cancel)
+            {
+                Cursor.Current = Cursors.WaitCursor;
+
+                var workbook = new XLWorkbook();
+                var ws = workbook.Worksheets.Add("Relatorio de Artesão");
+
+                ws.Column("A").Width = 26.43;
+                ws.Column("B").Width = 14.14;
+                ws.Column("C").Width = 19.43;
+                ws.Column("D").Width = 19.43;
+
+                ws.Range("A1:D4").Style.Font.FontSize = 14;
+
+                ws.Range("A1:D1").Merge();
+                ws.Range("A1:D1").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                ws.Cell("A1").Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                ws.Cell("A1").Style.Font.Bold = true;
+                ws.Cell("A1").Value = "LOJA ARTESANATO CAPIXABA";
+
+                ws.Range("A2:D2").Merge();
+                ws.Range("A2:D2").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                ws.Cell("A2").Style.Font.Italic = true;
+                ws.Cell("A2").Value = $"Artesão: {txtNomeArtesao.Text}";
+
+                ws.Range("A3:D3").Merge();
+                ws.Range("A3:D3").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                ws.Cell("A3").Style.Font.Italic = true;
+                ws.Cell("A3").Value = $"Data de medição: {dtpDataDe.Text} até {dtpDataAte.Text}";
+
+                ws.Range("A4:D4").Style.Font.Bold = true;
+                ws.Range("A4:D4").Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                ws.Range("A4:D4").Style.Border.SetInsideBorder(XLBorderStyleValues.Thick);
+                ws.Cell("A4").Value = "Produto";
+                ws.Cell("B4").Value = "Quantidade";
+                ws.Cell("C4").Value = "Valor Unitário";
+                ws.Cell("D4").Value = "Valor Total";
+
+                PreencherItens();
+
+                Item[] itemV = new Item[dicItems.Count];
+
+                int cont = 0;
+                foreach (Item item in dicItems.Values)
+                {
+                    itemV[cont] = item;
+                    cont++;
+                }
+
+                for (int i = 0; i < dicItems.Count; i++)
+                {
+                    ws.Cell(i + 5, 1).Value = itemV[i].Name;
+                    ws.Cell(i + 5, 1).Style.Font.FontSize = 14;
+                    ws.Cell(i + 5, 1).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+
+                    ws.Cell(i + 5, 2).Value = itemV[i].Quantidade;
+                    ws.Cell(i + 5, 2).Style.Font.FontSize = 14;
+                    ws.Cell(i + 5, 2).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+
+                    ws.Cell(i + 5, 3).Value = itemV[i].ValorUnitario;
+                    ws.Cell(i + 5, 3).Style.Font.FontSize = 14;
+                    ws.Cell(i + 5, 3).Style.NumberFormat.Format = "R$ #,##0.00";
+                    ws.Cell(i + 5, 3).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+
+                    ws.Cell(i + 5, 4).Value = itemV[i].ValorTotal;
+                    ws.Cell(i + 5, 4).Style.Font.FontSize = 14;
+                    ws.Cell(i + 5, 4).Style.NumberFormat.Format = "R$ #,##0.00";
+                    ws.Cell(i + 5, 4).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+
+                }
+
+
+                var rTotalVendido = ws.Range(dicItems.Count + 5, 1, dicItems.Count + 5, 2);
+                rTotalVendido.Merge();
+                rTotalVendido.Style.Font.Bold = true;
+                rTotalVendido.Style.Font.FontSize = 14;
+                rTotalVendido.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                rTotalVendido.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                rTotalVendido.Value = "Valor Total Vendido";
+
+                var rValorTotalVendido = ws.Range(dicItems.Count + 5, 3, dicItems.Count + 5, 4);
+                rValorTotalVendido.Merge();
+                rValorTotalVendido.Style.Font.FontSize = 14;
+                rValorTotalVendido.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                rValorTotalVendido.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                rValorTotalVendido.Style.NumberFormat.Format = "R$ #,##0.00";
+                rValorTotalVendido.FormulaA1 = $"=SUM(D{dicItems.Count + 4}:D5)";
+
+                var rTotalDoArtesao = ws.Range(dicItems.Count + 6, 1, dicItems.Count + 6, 2);
+                rTotalDoArtesao.Merge();
+                rTotalDoArtesao.Style.Font.Bold = true;
+                rTotalDoArtesao.Style.Font.FontSize = 14;
+                rTotalDoArtesao.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                rTotalDoArtesao.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                rTotalDoArtesao.Value = "Valor do Artesão";
+
+                var rValorTotalDoArtesao = ws.Range(dicItems.Count + 6, 3, dicItems.Count + 6, 4);
+                rValorTotalDoArtesao.Merge();
+                rValorTotalDoArtesao.Style.Font.FontSize = 14;
+                rValorTotalDoArtesao.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
+                rValorTotalDoArtesao.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                rValorTotalDoArtesao.Style.NumberFormat.Format = "R$ #,##0.00";
+                rValorTotalDoArtesao.FormulaA1 = $"C{dicItems.Count+5} * 0.7";
+
+                workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
+
+                Cursor.Current = Cursors.Default;
+
+                functions.messageBOXok("Dados Exportados com Sucesso");
+            }
+        }
+
+        private void PreencherItens()
+        {
+
+            for (int i = 0; i < gridArtesao.RowCount - 1; i++)
+            {
+                string itemK = gridArtesao.Rows[i].Cells[0].Value.ToString(); //key (codigo)
+                string itemN = gridArtesao.Rows[i].Cells[0].Value.ToString(); //aqui entra o nome fantasia do item
+                int itemQ = Int32.Parse(gridArtesao.Rows[i].Cells[1].Value.ToString()); //quantidade
+                float itemVT = float.Parse(gridArtesao.Rows[i].Cells[2].Value.ToString());
+                float itemVU = itemVT / itemQ;
+                if (!dicItems.ContainsKey(itemK))
+                {
+                    dicItems.Add(itemK, new Item { Name = itemN, Quantidade = itemQ , ValorTotal = itemVT, ValorUnitario = itemVU});
+                }
+                else
+                {
+                    Item item = dicItems[itemK];
+                    item.Quantidade++;
+                    item.ValorTotal += itemVT;
+                    dicItems[itemK] = item;
+                }
+            }
         }
 
         private void exportGridArtesao()
