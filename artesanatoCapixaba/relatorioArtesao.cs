@@ -31,7 +31,7 @@ namespace artesanatoCapixaba
         }
 
         private string selectGridArtesaoItens =
-            "SELECT tbl_itensvenda.Codigo_Produto, tbl_itensvenda.Quantidade_Produto, tbl_itensvenda.ValorTotal_Item , tbl_itensvenda.ValorArtesao_Item" +
+            "SELECT tbl_itensvenda.Codigo_Produto, tbl_itensvenda.Quantidade_Produto, tbl_itensvenda.ValorTotal_Item , tbl_itensvenda.ValorArtesao_Item, tbl_produto.TipoProduto_Produto" +
             " FROM tbl_produto" +
             " INNER JOIN tbl_itensvenda ON tbl_itensvenda.Codigo_Produto = tbl_produto.Codigo_Produto" +
             " INNER JOIN tbl_artesao ON tbl_artesao.ID_Artesao = tbl_produto.Codigo_Artesao" +
@@ -162,7 +162,7 @@ namespace artesanatoCapixaba
             {
                 while (leitor.Read())
                 {
-                    gridArtesao.Rows.Add(leitor["Codigo_Produto"], leitor["Quantidade_Produto"], Double.Parse(leitor["ValorTotal_Item"].ToString()), Double.Parse(leitor["ValorArtesao_Item"].ToString().Replace('.', ',')));
+                    gridArtesao.Rows.Add(leitor["Codigo_Produto"], leitor["Quantidade_Produto"], Double.Parse(leitor["ValorTotal_Item"].ToString()), Double.Parse(leitor["ValorArtesao_Item"].ToString().Replace('.', ',')), leitor["TipoProduto_Produto"].ToString());
                     contQuantidade += Int32.Parse(leitor["Quantidade_Produto"].ToString());
                     contValor += Double.Parse(leitor["ValorArtesao_Item"].ToString());
                 }
@@ -183,22 +183,25 @@ namespace artesanatoCapixaba
 
         private void configGridArtesao()
         {
-            gridArtesao.ColumnCount = 4;
+            gridArtesao.ColumnCount = 5;
 
             gridArtesao.Columns[0].Name = "Codigo_Produto";
             gridArtesao.Columns[1].Name = "Quantidade_Produto";
             gridArtesao.Columns[2].Name = "ValorTotal_Item";
             gridArtesao.Columns[3].Name = "ValorArtesao_Item";
+            gridArtesao.Columns[4].Name = "TipoProduto_Produto";
 
             gridArtesao.Columns[0].HeaderText = "Produto";
             gridArtesao.Columns[1].HeaderText = "Quantidade";
             gridArtesao.Columns[2].HeaderText = "Valor Total";
             gridArtesao.Columns[3].HeaderText = "Valor P/ Artesão";
+            gridArtesao.Columns[4].HeaderText = "Nome do Produto";
 
             gridArtesao.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridArtesao.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridArtesao.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
             gridArtesao.Columns[3].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
+            gridArtesao.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 
             gridArtesao.Columns[2].DefaultCellStyle.Format = "C2";
             gridArtesao.Columns[3].DefaultCellStyle.Format = "C2";
@@ -339,11 +342,11 @@ namespace artesanatoCapixaba
 
         private void PreencherItens()
         {
-
+            dicItems.Clear();
             for (int i = 0; i < gridArtesao.RowCount - 1; i++)
             {
                 string itemK = gridArtesao.Rows[i].Cells[0].Value.ToString(); //key (codigo)
-                string itemN = gridArtesao.Rows[i].Cells[0].Value.ToString(); //aqui entra o nome fantasia do item
+                string itemN = gridArtesao.Rows[i].Cells[4].Value.ToString(); //aqui entra o nome fantasia do item
                 int itemQ = Int32.Parse(gridArtesao.Rows[i].Cells[1].Value.ToString()); //quantidade
                 float itemVT = float.Parse(gridArtesao.Rows[i].Cells[2].Value.ToString());
                 float itemVU = itemVT / itemQ;
@@ -354,7 +357,7 @@ namespace artesanatoCapixaba
                 else
                 {
                     Item item = dicItems[itemK];
-                    item.Quantidade++;
+                    item.Quantidade += itemQ;
                     item.ValorTotal += itemVT;
                     dicItems[itemK] = item;
                 }
