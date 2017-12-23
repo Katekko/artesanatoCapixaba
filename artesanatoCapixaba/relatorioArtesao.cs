@@ -134,17 +134,17 @@ namespace artesanatoCapixaba
         }
 
         private void atualizargridArtesao(string select)
-        {  
+        {
             configGridArtesao();
-            fillgridArtesao(select); 
+            fillgridArtesao(select);
         }
 
         private void fillgridArtesao(string select)
         {
-            
+
 
             SqlConnection con = functions.connectionSQL();
-            SqlCommand query = new SqlCommand(select,con);
+            SqlCommand query = new SqlCommand(select, con);
 
             var leitor = query.ExecuteReader();
 
@@ -176,7 +176,7 @@ namespace artesanatoCapixaba
                 lblTotalItensResult.ForeColor = Color.Red;
                 lblTotalValorResult.ForeColor = Color.Red;
             }
-        
+
             leitor.Close();
             con.Close();
         }
@@ -263,7 +263,7 @@ namespace artesanatoCapixaba
                 ws.Range("A4:D4").Style.Border.SetInsideBorder(XLBorderStyleValues.Thick);
                 ws.Cell("A4").Value = "Produto";
                 ws.Cell("B4").Value = "Quantidade";
-                ws.Cell("C4").Value = "Valor Unitário";
+                ws.Cell("C4").Value = "Valor Unitário Na Venda";
                 ws.Cell("D4").Value = "Valor Total";
 
                 PreencherItens();
@@ -330,7 +330,7 @@ namespace artesanatoCapixaba
                 rValorTotalDoArtesao.Style.Border.SetOutsideBorder(XLBorderStyleValues.Thick);
                 rValorTotalDoArtesao.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 rValorTotalDoArtesao.Style.NumberFormat.Format = "R$ #,##0.00";
-                rValorTotalDoArtesao.FormulaA1 = $"C{dicItems.Count+5} * 0.7";
+                rValorTotalDoArtesao.FormulaA1 = $"C{dicItems.Count + 5} * 0.7";
 
                 workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
 
@@ -343,6 +343,9 @@ namespace artesanatoCapixaba
         private void PreencherItens()
         {
             dicItems.Clear();
+            Dictionary<string, string> dicContRep = new Dictionary<string, string>();
+            Dictionary<string, float> dicValorU = new Dictionary<string, float>();
+
             for (int i = 0; i < gridArtesao.RowCount - 1; i++)
             {
                 string itemK = gridArtesao.Rows[i].Cells[0].Value.ToString(); //key (codigo)
@@ -350,16 +353,47 @@ namespace artesanatoCapixaba
                 int itemQ = Int32.Parse(gridArtesao.Rows[i].Cells[1].Value.ToString()); //quantidade
                 float itemVT = float.Parse(gridArtesao.Rows[i].Cells[2].Value.ToString());
                 float itemVU = itemVT / itemQ;
+
                 if (!dicItems.ContainsKey(itemK))
                 {
-                    dicItems.Add(itemK, new Item { Name = itemN, Quantidade = itemQ , ValorTotal = itemVT, ValorUnitario = itemVU});
+                    dicItems.Add(itemK, new Item { Name = itemN, Quantidade = itemQ, ValorTotal = itemVT, ValorUnitario = itemVU });
+                    dicContRep.Add(itemK, itemK);
+                    dicValorU.Add(itemK, itemVU);
                 }
                 else
                 {
-                    Item item = dicItems[itemK];
-                    item.Quantidade += itemQ;
-                    item.ValorTotal += itemVT;
-                    dicItems[itemK] = item;
+                    string novaKey= string.Empty;
+                    int contModify = 0;
+                    foreach (string contValue in dicContRep.Values)
+                    {
+                        if (contValue == itemK)
+                        {
+                            contModify++;
+                        }                   
+                    }
+
+                    foreach(string keyCont in dicContRep.Keys)
+                    {
+                        if(dicContRep[keyCont] == itemK)
+                        {
+                            float valorUnitario = dicValorU[dicContRep[keyCont]];     
+                            if(valorUnitario == itemVU)
+                            {
+                                Item item = dicItems[itemK];
+                                item.Quantidade += itemQ;
+                                item.ValorTotal += itemVT;
+                                dicItems[itemK] = item;           
+                            }
+                            else
+                            {
+                                dicItems.Add(itemK + "|" + i, new Item { Name = itemN, Quantidade = itemQ, ValorTotal = itemVT, ValorUnitario = itemVU });
+                                dicContRep.Add(itemK + "|" + i, itemK);
+                                dicValorU.Add(itemK + "|" + i, itemVU);
+                            }
+                            break;
+                        }
+                    }                        
+                                    
                 }
             }
         }
@@ -456,7 +490,7 @@ namespace artesanatoCapixaba
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 4).Style.Fill.BackgroundColor = XLColor.LightGray;
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 4).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                ws.Cell((gridArtesao.RowCount - 1) + 3, 5).FormulaA1 = $"=E{gridArtesao.RowCount+1}*0.7";
+                ws.Cell((gridArtesao.RowCount - 1) + 3, 5).FormulaA1 = $"=E{gridArtesao.RowCount + 1}*0.7";
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 5).Style.Font.Bold = true;
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 5).Style.Fill.BackgroundColor = XLColor.LightGray;
                 ws.Cell((gridArtesao.RowCount - 1) + 3, 5).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
@@ -471,7 +505,7 @@ namespace artesanatoCapixaba
                 ws.Cell((gridArtesao.RowCount - 1) + 4, 5).Style.Fill.BackgroundColor = XLColor.LightGray;
                 ws.Cell((gridArtesao.RowCount - 1) + 4, 5).Style.Border.SetOutsideBorder(XLBorderStyleValues.Thin);
 
-                workbook.SaveAs(saveFile.FileName.ToString()+".xlsx");
+                workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
 
                 Cursor.Current = Cursors.Default;
 

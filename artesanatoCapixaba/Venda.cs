@@ -316,7 +316,6 @@ namespace artesanatoCapixaba
                 {
                     //com desconto
                     valorNovoItem = (valorAntigoItem - (valorAntigoItem * (Double.Parse(txtDesconto.Text) / 100)));
-
                     return fillGridItens(codProduto, quantProduto, valorNovoItem, valorAntigoItem, valorDesconto);
                 }
                 else
@@ -337,7 +336,16 @@ namespace artesanatoCapixaba
         {
             try
             {
-                gridItemVenda.Rows.Add(codProduto, quantProduto, valorNovoItem, descontoItem + "%", valorAntigoItem);
+                if(descontoItem == 0)
+                {
+                    gridItemVenda.Rows.Add(codProduto, quantProduto, valorNovoItem, descontoItem + "%", valorAntigoItem);
+                }
+                else
+                {
+                    gridItemVenda.Columns[4].Visible = false;
+                    gridItemVenda.Rows.Add(codProduto, quantProduto, valorNovoItem, descontoItem + "%", valorAntigoItem);
+                }
+                
                 return true;
             }
             catch

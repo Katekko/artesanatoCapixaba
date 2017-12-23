@@ -50,15 +50,15 @@
             this.lblValorRecebido = new System.Windows.Forms.Label();
             this.txtValorRecebido = new System.Windows.Forms.TextBox();
             this.boxItems = new System.Windows.Forms.GroupBox();
+            this.txtDesconto = new System.Windows.Forms.TextBox();
+            this.chkDesconto = new System.Windows.Forms.CheckBox();
             this.btnRetirarItem = new System.Windows.Forms.Button();
             this.btnAdicionarItem = new System.Windows.Forms.Button();
+            this.lblDesconto = new System.Windows.Forms.Label();
             this.lblCodProd = new System.Windows.Forms.Label();
             this.txtCodProd = new System.Windows.Forms.TextBox();
             this.lblQuant = new System.Windows.Forms.Label();
             this.txtQuantidade = new System.Windows.Forms.TextBox();
-            this.lblDesconto = new System.Windows.Forms.Label();
-            this.chkDesconto = new System.Windows.Forms.CheckBox();
-            this.txtDesconto = new System.Windows.Forms.TextBox();
             this.Codigo_Produto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Quantidade_Produto = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ValorTotal_Item = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -314,6 +314,23 @@
             this.boxItems.TabStop = false;
             this.boxItems.Text = "Itens";
             // 
+            // txtDesconto
+            // 
+            this.txtDesconto.Location = new System.Drawing.Point(148, 81);
+            this.txtDesconto.Name = "txtDesconto";
+            this.txtDesconto.Size = new System.Drawing.Size(172, 26);
+            this.txtDesconto.TabIndex = 5;
+            // 
+            // chkDesconto
+            // 
+            this.chkDesconto.AutoSize = true;
+            this.chkDesconto.Location = new System.Drawing.Point(326, 87);
+            this.chkDesconto.Name = "chkDesconto";
+            this.chkDesconto.Size = new System.Drawing.Size(15, 14);
+            this.chkDesconto.TabIndex = 4;
+            this.chkDesconto.UseVisualStyleBackColor = true;
+            this.chkDesconto.CheckedChanged += new System.EventHandler(this.chkDesconto_CheckedChanged);
+            // 
             // btnRetirarItem
             // 
             this.btnRetirarItem.BackColor = System.Drawing.Color.Crimson;
@@ -342,6 +359,16 @@
             this.btnAdicionarItem.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.btnAdicionarItem.UseVisualStyleBackColor = false;
             this.btnAdicionarItem.Click += new System.EventHandler(this.btnAdicionarItem_Click);
+            // 
+            // lblDesconto
+            // 
+            this.lblDesconto.AutoSize = true;
+            this.lblDesconto.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDesconto.Location = new System.Drawing.Point(60, 84);
+            this.lblDesconto.Name = "lblDesconto";
+            this.lblDesconto.Size = new System.Drawing.Size(82, 19);
+            this.lblDesconto.TabIndex = 18;
+            this.lblDesconto.Text = "Desconto:";
             // 
             // lblCodProd
             // 
@@ -380,33 +407,6 @@
             this.txtQuantidade.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtQuantidade_KeyPress);
             this.txtQuantidade.Leave += new System.EventHandler(this.txtQuantidade_Leave);
             // 
-            // lblDesconto
-            // 
-            this.lblDesconto.AutoSize = true;
-            this.lblDesconto.Font = new System.Drawing.Font("Rockwell", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDesconto.Location = new System.Drawing.Point(60, 84);
-            this.lblDesconto.Name = "lblDesconto";
-            this.lblDesconto.Size = new System.Drawing.Size(82, 19);
-            this.lblDesconto.TabIndex = 18;
-            this.lblDesconto.Text = "Desconto:";
-            // 
-            // chkDesconto
-            // 
-            this.chkDesconto.AutoSize = true;
-            this.chkDesconto.Location = new System.Drawing.Point(326, 87);
-            this.chkDesconto.Name = "chkDesconto";
-            this.chkDesconto.Size = new System.Drawing.Size(15, 14);
-            this.chkDesconto.TabIndex = 4;
-            this.chkDesconto.UseVisualStyleBackColor = true;
-            this.chkDesconto.CheckedChanged += new System.EventHandler(this.chkDesconto_CheckedChanged);
-            // 
-            // txtDesconto
-            // 
-            this.txtDesconto.Location = new System.Drawing.Point(148, 81);
-            this.txtDesconto.Name = "txtDesconto";
-            this.txtDesconto.Size = new System.Drawing.Size(172, 26);
-            this.txtDesconto.TabIndex = 5;
-            // 
             // Codigo_Produto
             // 
             this.Codigo_Produto.HeaderText = "Produto";
@@ -432,19 +432,19 @@
             // 
             // Desconto
             // 
-            this.Desconto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Desconto.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.Desconto.HeaderText = "Desc.";
             this.Desconto.Name = "Desconto";
             this.Desconto.ReadOnly = true;
+            this.Desconto.Width = 79;
             // 
             // ValorAntigo
             // 
-            this.ValorAntigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.ValorAntigo.HeaderText = "ValorAntigo";
+            this.ValorAntigo.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.ValorAntigo.HeaderText = "ValorOriginal";
             this.ValorAntigo.Name = "ValorAntigo";
             this.ValorAntigo.ReadOnly = true;
-            this.ValorAntigo.Visible = false;
-            this.ValorAntigo.Width = 128;
+            this.ValorAntigo.Width = 144;
             // 
             // Venda
             // 
