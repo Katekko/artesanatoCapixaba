@@ -242,6 +242,9 @@ namespace artesanatoCapixaba
                 relatorioItens.Cell(2 + aux, 3).Style.Font.SetBold(true);
                 /*--------------------------------------------------------------------------------------*/
 
+                leitor.Close();
+                con.Close();
+                
                 workbook.SaveAs(saveFile.FileName.ToString() + ".xlsx");
 
                 Cursor.Current = Cursors.Default;
